@@ -10,9 +10,9 @@ const Login = () => {
 
       <LoginEmailPwContainer>
         <LoginEmailText>E-mail</LoginEmailText>
-        <LoginEmailInput />
+        <LoginEmailInput placeholder="이메일을 입력해주세요" />
         <LoginPwText>Password</LoginPwText>
-        <LoginPwInput />
+        <LoginPwInput placeholder="비밀번호를 입력해주세요" />
       </LoginEmailPwContainer>
 
       <LoginBtnContainer>
@@ -45,7 +45,7 @@ const LoginContainer = styled.div`
   height: 400px;
   margin: 0 auto;
   margin-top: 200px;
-  padding: 20px;
+  padding: 40px;
 `;
 const LoginText = styled.text`
   display: flex;

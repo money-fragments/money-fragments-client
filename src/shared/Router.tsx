@@ -1,3 +1,4 @@
+import { Login, SignUp } from 'components/auth';
 import { Landing } from 'components/landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -6,6 +7,8 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

@@ -50,6 +50,10 @@ const GlobalStyle = createGlobalStyle`
   * {
     font-family: Pretendard;
   }
+  a{
+  text-decoration: none;
+  color: inherit;
+}
 `;
 
 export default GlobalStyle;

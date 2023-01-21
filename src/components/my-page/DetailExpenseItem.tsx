@@ -34,14 +34,14 @@ const DetailMonthlyExpenseTableBody = styled.div`
 
   span {
     width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   span:nth-child(5) {
     width: 450px;
     max-height: 18px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   div {

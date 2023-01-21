@@ -9,12 +9,17 @@ declare module 'styled-components' {
       brand50: string;
       brand0: string;
       black100: string;
-      mono100: string;
-      mono60: string;
-      mono30: string;
-      mono0: string;
+      mono100B: string;
+      mono60B: string;
+      mono30B: string;
+      mono0B: string;
+      mono100W: string;
+      mono60W: string;
+      mono30W: string;
+      mono0W: string;
       white100: string;
     };
+
     fontSize: {
       title: string;
       h1: string;

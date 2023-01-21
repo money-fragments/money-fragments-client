@@ -6,14 +6,15 @@ const useUserExpenses = (userId: string) => {
   const [monthlyExpense, setMonthlyExpense] = useState<number[]>([]);
   const [maxExpense, setMaxExpense] = useState<number>(0);
 
-  const { data, isError, isLoading } = useQuery('userExpenses', () =>
-    getUserExpense(userId)
+  const { data, isError, error, isLoading } = useQuery<Expense[], Error>(
+    'userExpenses',
+    () => getUserExpense(userId)
   );
 
   useEffect(() => {
     const monthlyExpense: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if (data) {
-      data.forEach((expense: Expense) => {
+      data.forEach((expense) => {
         const expenseDate = new Date(+expense.date);
         const expenseMonth = expenseDate.getMonth();
         monthlyExpense[expenseMonth] += +expense.price;
@@ -23,7 +24,7 @@ const useUserExpenses = (userId: string) => {
     setMaxExpense(Math.max(...monthlyExpense));
   }, [data]);
 
-  return { data, isError, isLoading, monthlyExpense, maxExpense };
+  return { data, isError, error, isLoading, monthlyExpense, maxExpense };
 };
 
 export default useUserExpenses;

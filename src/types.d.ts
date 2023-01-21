@@ -6,3 +6,7 @@ interface Expense {
   price: number;
   experience: string;
 }
+
+interface Window {
+  kakao: any;
+}

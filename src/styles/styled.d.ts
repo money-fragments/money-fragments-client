@@ -13,10 +13,6 @@ declare module 'styled-components' {
       mono60B: string;
       mono30B: string;
       mono0B: string;
-      mono100W: string;
-      mono60W: string;
-      mono30W: string;
-      mono0W: string;
       white100: string;
     };
 

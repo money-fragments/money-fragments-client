@@ -30,10 +30,6 @@ const theme: DefaultTheme = {
     mono60B: Colors.MONO60B,
     mono30B: Colors.MONO30B,
     mono0B: Colors.MONO0B,
-    mono100W: Colors.MONO100W,
-    mono60W: Colors.MONO60W,
-    mono30W: Colors.MONO30W,
-    mono0W: Colors.MONO0W,
     white100: Colors.WHITE100,
   },
   fontSize: {

@@ -10,10 +10,15 @@ const MonthlyExpenseBar = () => {
   const [monthlyExpense, setMonthlyExpense] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
+    const initMonthlyExpense = setTimeout(() => {
       setMonthlyExpense(105);
     }, 300);
-  }, []);
+
+    return () => {
+      clearTimeout(initMonthlyExpense);
+    };
+  }, [setMonthlyExpense]);
+
   return (
     <MonthlyExpenseBarContainer>
       <H5>1월</H5>

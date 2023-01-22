@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getUserExpense } from 'utils/api';
 
 const useUserExpenses = (userId: string) => {
@@ -7,7 +7,7 @@ const useUserExpenses = (userId: string) => {
   const [maxExpense, setMaxExpense] = useState<number>(0);
 
   const { data, isError, error, isLoading } = useQuery<Expense[], Error>(
-    'userExpenses',
+    ['userExpenses'],
     () => getUserExpense(userId)
   );
 

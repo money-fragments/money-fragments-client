@@ -2,28 +2,37 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { Content, H6 } from 'components/common';
 
 const SignUp = () => {
   return (
     <SignUpContainer>
-      <SignUpText>회원가입</SignUpText>
+      <SignUpTextDiv>
+        <H6>회원가입</H6>
+      </SignUpTextDiv>
 
       <SignUpEmailPwContainer>
-        <SignUpEmailText>E-mail</SignUpEmailText>
+        <Content>E-mail</Content>
         <SignUpEmailInput placeholder="이메일을 입력해주세요" />
-        <SignUpPwText>Password</SignUpPwText>
+        <SignUpPwTextDiv>
+          <Content>Password</Content>
+        </SignUpPwTextDiv>
         <SignUpPwInput placeholder="비밀번호를 입력해주세요" />
-        <SignUpPwConfirm>Password Confirm</SignUpPwConfirm>
+        <SignUpPwConfirm>
+          <Content>Password Confirm</Content>
+        </SignUpPwConfirm>
         <SignUpPwConfirmInput placeholder="비밀번호 한번 더 입력해주세요" />
       </SignUpEmailPwContainer>
 
       <SignUpBtnContainer>
-        <SignUpBtn>SignUp</SignUpBtn>
+        <SignUpBtnDiv>
+          <Content>SignUp</Content>
+        </SignUpBtnDiv>
       </SignUpBtnContainer>
 
       <SignUpOtherMethod>
         <SignUpOrLine>
-          <SignUpOrText>OR</SignUpOrText>
+          <Content>OR</Content>
         </SignUpOrLine>
 
         <SignUpGoogleGitContainer>
@@ -49,10 +58,9 @@ const SignUpContainer = styled.div`
   margin-top: 200px;
   padding: 40px;
 `;
-const SignUpText = styled.text`
+const SignUpTextDiv = styled.div`
   display: flex;
   justify-content: center;
-  font-size: ${(props) => props.theme.fontSize.h6};
 `;
 const SignUpEmailPwContainer = styled.div`
   display: flex;
@@ -62,39 +70,34 @@ const SignUpEmailPwContainer = styled.div`
   margin: 0 auto;
   margin-top: 20px;
 `;
-const SignUpEmailText = styled.text`
-  font-size: ${(props) => props.theme.fontSize.content};
-`;
 const SignUpEmailInput = styled.input`
   height: 30px;
   margin-top: 10px;
   padding-left: 5px;
-  background-color: #d9d9d9;
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
-const SignUpPwText = styled.text`
+const SignUpPwTextDiv = styled.div`
   margin-top: 10px;
-  font-size: ${(props) => props.theme.fontSize.content};
 `;
 const SignUpPwInput = styled.input`
   height: 30px;
   margin-top: 10px;
   padding-left: 5px;
-  background-color: #d9d9d9;
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
-const SignUpPwConfirm = styled.text`
+const SignUpPwConfirm = styled.div`
   margin-top: 10px;
-  font-size: ${(props) => props.theme.fontSize.content};
 `;
 const SignUpPwConfirmInput = styled.input`
   height: 30px;
   margin-top: 10px;
   padding-left: 5px;
-  background-color: #d9d9d9;
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
 const SignUpBtnContainer = styled.div`
@@ -102,19 +105,18 @@ const SignUpBtnContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const SignUpBtn = styled.button`
+const SignUpBtnDiv = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
   height: 30px;
   width: 80px;
-  background-color: #d9d9d9;
-  font-size: ${(props) => props.theme.fontSize.content};
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 15px;
   &:active {
-    background-color: ${(props) => props.theme.colors.mono0};
+    background-color: ${(props) => props.theme.colors.black0};
   }
 `;
 const SignUpOtherMethod = styled.div``;
@@ -143,9 +145,6 @@ const SignUpOrLine = styled.div`
     margin: 0px 8px;
   }
 `;
-const SignUpOrText = styled.text`
-  font-size: ${(props) => props.theme.fontSize.content};
-`;
 const SignUpGoogleGitContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -168,6 +167,6 @@ const SignUpCheckContainer = styled.div`
     }
   }
 `;
-const SignUpCheckSign = styled.text``;
+const SignUpCheckSign = styled.div``;
 
 export default SignUp;

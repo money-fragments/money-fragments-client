@@ -14,7 +14,14 @@ declare module 'styled-components' {
       mono30: string;
       mono0: string;
       white100: string;
+      white60: string;
+      white30: string;
+      white0: string;
+      black60: string;
+      black30: string;
+      black0: string;
     };
+
     fontSize: {
       title: string;
       h1: string;

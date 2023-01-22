@@ -16,6 +16,12 @@ enum Colors {
   'MONO30W' = '#DEE2E6',
   'MONO0B' = '#6C757D',
   'MONO0W' = '#CED4DA',
+  'WHITE60' = '#E9ECEF',
+  'WHITE30' = '#DEE2E6',
+  'WHITE0' = '#CED4DA',
+  'BLACK60' = '#343A40',
+  'BLACK30' = '#495057',
+  'BLACK0' = '#6C757D',
 }
 
 const theme: DefaultTheme = {
@@ -31,6 +37,12 @@ const theme: DefaultTheme = {
     mono30: Colors.MONO30B,
     mono0: Colors.MONO0B,
     white100: Colors.WHITE100,
+    white60: Colors.WHITE60,
+    white30: Colors.WHITE30,
+    white0: Colors.WHITE0,
+    black60:Colors.BLACK60,
+    black30:Colors.BLACK30,
+    black0:Colors.BLACK0,
   },
   fontSize: {
     title: '64px',

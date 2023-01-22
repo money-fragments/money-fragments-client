@@ -2,26 +2,33 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { Content, H6 } from 'components/common';
 
 const Login = () => {
   return (
     <LoginContainer>
-      <LoginText>로그인</LoginText>
+      <LoginTextDiv>
+        <H6>로그인</H6>
+      </LoginTextDiv>
 
       <LoginEmailPwContainer>
-        <LoginEmailText>E-mail</LoginEmailText>
-        <LoginEmailInput />
-        <LoginPwText>Password</LoginPwText>
-        <LoginPwInput />
+        <Content>E-mail</Content>
+        <LoginEmailInput placeholder="이메일을 입력해주세요" />
+        <LoginPwTextDiv>
+          <Content>Password</Content>
+        </LoginPwTextDiv>
+        <LoginPwInput placeholder="비밀번호를 입력해주세요" />
       </LoginEmailPwContainer>
 
       <LoginBtnContainer>
-        <LoginBtn>Login</LoginBtn>
+        <LoginBtn>
+          <Content>Login</Content>
+        </LoginBtn>
       </LoginBtnContainer>
 
       <LoginOtherMethod>
         <LoginOrLine>
-          <LoginOrText>OR</LoginOrText>
+          <Content>OR</Content>
         </LoginOrLine>
 
         <LoginGoogleGitContainer>
@@ -32,7 +39,7 @@ const Login = () => {
 
       <LoginCheckContainer>
         <Link to={'/SignUp'}>
-          <LoginCheckSign>아직 회원이 아니신가요?</LoginCheckSign>
+          <LoginCheckSignDiv>아직 회원이 아니신가요?</LoginCheckSignDiv>
         </Link>
       </LoginCheckContainer>
     </LoginContainer>
@@ -40,17 +47,16 @@ const Login = () => {
 };
 
 const LoginContainer = styled.div`
-  background-color: #e9ecef;
+  background-color: ${(props) => props.theme.colors.white60};
   width: 500px;
   height: 400px;
   margin: 0 auto;
   margin-top: 200px;
-  padding: 20px;
+  padding: 40px;
 `;
-const LoginText = styled.text`
+const LoginTextDiv = styled.div`
   display: flex;
   justify-content: center;
-  font-size: ${(props) => props.theme.fontSize.h6};
 `;
 const LoginEmailPwContainer = styled.div`
   display: flex;
@@ -60,27 +66,23 @@ const LoginEmailPwContainer = styled.div`
   margin: 0 auto;
   margin-top: 30px;
 `;
-const LoginEmailText = styled.text`
-  font-size: ${(props) => props.theme.fontSize.content};
-`;
 const LoginEmailInput = styled.input`
   height: 30px;
   margin-top: 10px;
   padding-left: 5px;
-  background-color: #d9d9d9;
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
-const LoginPwText = styled.text`
+const LoginPwTextDiv = styled.div`
   margin-top: 10px;
-  font-size: ${(props) => props.theme.fontSize.content};
 `;
 const LoginPwInput = styled.input`
   height: 30px;
   margin-top: 10px;
   padding-left: 5px;
-  background-color: #d9d9d9;
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
 const LoginBtnContainer = styled.div`
@@ -94,12 +96,11 @@ const LoginBtn = styled.button`
   align-items: center;
   height: 30px;
   width: 80px;
-  background-color: #d9d9d9;
-  font-size: ${(props) => props.theme.fontSize.content};
-  border: 2px solid #d9d9d9;
+  background-color: ${(props) => props.theme.colors.white0};
+  border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 15px;
   &:active {
-    background-color: ${(props) => props.theme.colors.mono0};
+    background-color: ${(props) => props.theme.colors.black0};
   }
 `;
 const LoginOtherMethod = styled.div``;
@@ -128,9 +129,6 @@ const LoginOrLine = styled.div`
     margin: 0px 8px;
   }
 `;
-const LoginOrText = styled.text`
-  font-size: ${(props) => props.theme.fontSize.content};
-`;
 const LoginGoogleGitContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -154,6 +152,6 @@ const LoginCheckContainer = styled.div`
     }
   }
 `;
-const LoginCheckSign = styled.text``;
+const LoginCheckSignDiv = styled.div``;
 
 export default Login;

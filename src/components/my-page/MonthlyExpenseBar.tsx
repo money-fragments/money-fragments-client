@@ -6,22 +6,32 @@ interface MonthlyExpenseFillProps {
   height: number;
 }
 
-const MonthlyExpenseBar = () => {
+interface MonthlyExpenseBarProps {
+  expense: number;
+  month: number;
+  maxExpense: number;
+}
+
+const MonthlyExpenseBar = ({
+  expense,
+  month,
+  maxExpense,
+}: MonthlyExpenseBarProps) => {
   const [monthlyExpense, setMonthlyExpense] = useState(0);
 
   useEffect(() => {
     const initMonthlyExpense = setTimeout(() => {
-      setMonthlyExpense(105);
+      setMonthlyExpense((expense / maxExpense) * 150);
     }, 300);
 
     return () => {
       clearTimeout(initMonthlyExpense);
     };
-  }, [setMonthlyExpense]);
+  }, [setMonthlyExpense, expense, maxExpense]);
 
   return (
     <MonthlyExpenseBarContainer>
-      <H5>1월</H5>
+      <H5>{month}월</H5>
       <MonthlyExpenseOuterBar>
         <MonthlyExpenseFill height={monthlyExpense} />
       </MonthlyExpenseOuterBar>

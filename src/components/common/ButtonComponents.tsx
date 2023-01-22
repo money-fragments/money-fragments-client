@@ -36,7 +36,7 @@ export const CustomButton = styled.button<ButtonProps>`
       ? (props: any) => props.theme.fontSize[`${props.fontSize}`]
       : (props) => props.theme.fontSize.content};
 
-  border-radius: ${(props) => props.borderRadius || '10px'};
+  border-radius: ${(props) => props.borderRadius || '15px'};
 
   /* 호버 기능을 추가했습니다.  */
   &:hover {

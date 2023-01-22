@@ -9,7 +9,7 @@ interface ButtonProps {
   padding?: number | string;
   borderRadius?: number | string;
   children?: string;
-  theme?: DefaultTheme;
+  theme: DefaultTheme;
 }
 
 export const CustomButton = styled.button<ButtonProps>`

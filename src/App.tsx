@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from 'AuthProvider';
 import Router from 'shared/Router';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'styles/GlobalStyle';
@@ -10,8 +11,10 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router />
+        <AuthProvider>
+          <GlobalStyle />
+          <Router />
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

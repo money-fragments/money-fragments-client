@@ -75,6 +75,7 @@ const ContentBox = styled.div`
   .expense-where,
   .expense-what,
   .expense-how {
+    display: block;
     /* mono30W로 변경 필요 */
     color: ${(props) => props.theme.colors.white100};
   }

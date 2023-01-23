@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from 'styles/GlobalStyle';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { Content } from 'components/common';
 
+interface IPopupMemoProps {
+  setIsPopupMemoOpen: Dispatch<SetStateAction<boolean>>;
+}
 // 지도에 마커가 추가되며 해당 팝업이 표시됨
-const PopUpMemo = () => {
+const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
+  const handleOpenPopup = () => {
+    setIsPopupMemoOpen(false);
+  };
   return (
     <>
       <GlobalStyle />
       <MemoContainer>
         <IoIosCloseCircleOutline
           className="close-btn"
-          onClick={() => console.log('팝업창 닫힘.')}
+          onClick={handleOpenPopup}
         />
 
         <ContentBox>

@@ -46,7 +46,7 @@ const Maps = () => {
           <CustomOverlayMap
             position={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
           >
-            <PopUpMemo></PopUpMemo>
+            <PopUpMemo setIsPopupMemoOpen={setIsPopupMemoOpen}></PopUpMemo>
           </CustomOverlayMap>
         )}
       </Map>

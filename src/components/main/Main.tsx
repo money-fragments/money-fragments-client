@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
-import Maps from './Maps';
-
+import SearchPlace from './SearchPlace';
 const Main = () => {
   return (
     <MainPageContainer>
       <Header />
-      <Maps></Maps>
+      <SearchPlace />
     </MainPageContainer>
   );
 };

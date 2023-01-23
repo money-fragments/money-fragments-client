@@ -11,37 +11,40 @@ interface IMarkers {
 const Maps = () => {
   const [markers, setMarkers] = useState<IMarkers[]>([]);
   const [isVisible, setIsVisible] = useState(true);
+  const [clickDisabled, setClickDisabled] = useState(false);
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
   return (
     <>
       <Map
         center={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
-        style={{ width: '100%', height: '90vh' }}
+        style={{ width: '100%', height: '100vh' }}
         level={3} // 지도의 확대 레벨
-        // onClick={(_target, mouseEvent) => {
-        // setMarkers([
-        //   ...markers,
-        //   {
-        //     position: {
-        //       lat: mouseEvent.latLng.getLat(),
-        //       lng: mouseEvent.latLng.getLng(),
-        //     },
-        //   },
-        // ]);
-        // }}
+        onClick={(_target, mouseEvent) => {
+          setMarkers([
+            ...markers,
+            {
+              position: {
+                lat: mouseEvent.latLng.getLat(),
+                lng: mouseEvent.latLng.getLng(),
+              },
+            },
+          ]);
+        }}
       >
-        {/* {isVisible &&
+        {isVisible &&
           markers.map((marker, index) => (
             <MapMarker
               key={`${marker.position}-${index}`}
               position={marker.position} // 마커를 표시할 위치
               onClick={() => setIsPopupMemoOpen(true)}
             />
-          ))} */}
-        <MapMarker
-          position={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
-          onClick={() => setIsPopupMemoOpen(true)}
-        />
+          ))}
+        {/* {isVisible && (
+          <MapMarker
+            position={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
+            onClick={() => setIsPopupMemoOpen(true)}
+          />
+        )} */}
         {isPopupMemoOpen && (
           <CustomOverlayMap
             position={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
@@ -50,15 +53,6 @@ const Maps = () => {
           </CustomOverlayMap>
         )}
       </Map>
-      <div
-        style={{
-          display: 'flex',
-          gap: '10px',
-        }}
-      >
-        <button onClick={() => setIsVisible(false)}>마커 감추기</button>
-        <button onClick={() => setIsVisible(true)}>마커 보이기</button>
-      </div>
     </>
   );
 };

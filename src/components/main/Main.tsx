@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import MapContainer from './MapContainer';
+import Maps from './Maps';
 
 const Main = () => {
   return (
     <MainPageContainer>
       <Top>로고자리</Top>
-      <MapContainer></MapContainer>
+      <Maps></Maps>
     </MainPageContainer>
   );
 };

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Map } from 'react-kakao-maps-sdk';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
 
 interface ISearchPlace {
   searchPlace: string;
 }
+interface IMarkers {
+  position: { lat: number; lng: number };
+  content?: string;
+}
 
 const Maps = ({ searchPlace }: ISearchPlace) => {
+  const [info, setInfo] = useState<IMarkers>();
+  const [markers, setMarkers] = useState<IMarkers[]>([]);
+  const [map, setMap] = useState<kakao.maps.Map>();
+
   const [state, setState] = useState<MapProps>({
     // 지도의 초기 위치
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
@@ -15,16 +23,35 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
   });
 
   useEffect(() => {
+    if (!map) return;
     const ps = new kakao.maps.services.Places();
-    ps.keywordSearch(searchPlace, (data, status) => {
+    ps.keywordSearch(searchPlace, (data, status, _pagination) => {
       if (status === kakao.maps.services.Status.OK) {
-        const newSearch = data[0];
-        setState({
-          center: {
-            lat: newSearch.y as unknown as number,
-            lng: newSearch.x as unknown as number,
-          },
-        });
+        // const newSearch = data[0];
+
+        // setState({
+        //   center: {
+        //     lat: newSearch.y as unknown as number,
+        //     lng: newSearch.x as unknown as number,
+        //   },
+        // });
+
+        const bounds = new kakao.maps.LatLngBounds();
+        let newMarkers = [];
+        for (var i = 0; i < data.length; i++) {
+          // @ts-ignore
+          newMarkers.push({
+            position: {
+              lat: data[i].y as unknown as number,
+              lng: data[i].x as unknown as number,
+            },
+            content: data[i].place_name,
+          });
+          // @ts-ignore
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+        setMarkers(newMarkers);
+        map.setBounds(bounds);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert('검색 결과가 존재하지 않습니다.');
         return;
@@ -33,7 +60,7 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
         return;
       }
     });
-  }, [state]);
+  }, [searchPlace]);
 
   return (
     <Map
@@ -46,7 +73,22 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
         height: '100vh',
       }}
       level={3} // 지도의 확대 레벨
-    ></Map>
+      onCreate={setMap}
+    >
+      {markers.map((marker) => (
+        // if(marker !== undefined){
+
+        <MapMarker
+          key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+          position={marker.position}
+          onClick={() => setInfo(marker)}
+        >
+          {info && info.content === marker.content && (
+            <div style={{ color: '#000' }}>{marker.content}</div>
+          )}
+        </MapMarker>
+      ))}
+    </Map>
   );
 };
 

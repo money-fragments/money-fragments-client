@@ -9,7 +9,8 @@ interface IPopupMemoProps {
 }
 // 지도에 마커가 추가되며 해당 팝업이 표시됨
 const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
-  const handleOpenPopup = () => {
+  const handleClosePopup = (event: React.MouseEvent<SVGElement>) => {
+    event.stopPropagation();
     setIsPopupMemoOpen(false);
   };
   return (
@@ -18,7 +19,7 @@ const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
       <MemoContainer>
         <IoIosCloseCircleOutline
           className="close-btn"
-          onClick={handleOpenPopup}
+          onClick={handleClosePopup}
         />
 
         <ContentBox>

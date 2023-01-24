@@ -11,7 +11,6 @@ interface IMarkers {
 const Maps = () => {
   const [markers, setMarkers] = useState<IMarkers[]>([]);
   const [isVisible, setIsVisible] = useState(true);
-  const [clickDisabled, setClickDisabled] = useState(false);
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
   return (
     <>
@@ -20,15 +19,17 @@ const Maps = () => {
         style={{ width: '100%', height: '100vh' }}
         level={3} // 지도의 확대 레벨
         onClick={(_target, mouseEvent) => {
-          setMarkers([
-            ...markers,
-            {
-              position: {
-                lat: mouseEvent.latLng.getLat(),
-                lng: mouseEvent.latLng.getLng(),
+          if (!isPopupMemoOpen) {
+            setMarkers([
+              ...markers,
+              {
+                position: {
+                  lat: mouseEvent.latLng.getLat(),
+                  lng: mouseEvent.latLng.getLng(),
+                },
               },
-            },
-          ]);
+            ]);
+          }
         }}
       >
         {isVisible &&

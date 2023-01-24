@@ -49,6 +49,7 @@ const Maps = () => {
         {isPopupMemoOpen && (
           <CustomOverlayMap
             position={{ lat: 37.50231872560879, lng: 127.04444559443071 }}
+            clickable={true}
           >
             <PopUpMemo setIsPopupMemoOpen={setIsPopupMemoOpen}></PopUpMemo>
           </CustomOverlayMap>

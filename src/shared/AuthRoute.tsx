@@ -17,7 +17,7 @@ const AuthRoute = ({ children }: AuthRouteProps): JSX.Element => {
       if (user) {
         setLoading(false);
       } else {
-        alert('등록된 사용자가 아닙니다. 로그인부터 해주세요');
+        alert('로그아웃 되셨습니다. 접속 시 로그인을 해주세요');
         navigate('/login');
       }
     });

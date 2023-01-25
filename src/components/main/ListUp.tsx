@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import PlaceItem from './PlaceItem';
 import SearchPlace from './SearchPlace';
-
+import { IMarkers } from './Maps';
 interface IListUpProps {
   setPlace: React.Dispatch<React.SetStateAction<string>>;
+  list: IMarkers[];
 }
-const ListUp = ({ setPlace }: IListUpProps) => {
+const ListUp = ({ setPlace, list }: IListUpProps) => {
   return (
     <>
       <ListContainer>
         <SearchPlace setPlace={setPlace} />
+        <PlaceItem list={list} />
       </ListContainer>
     </>
   );

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
-import PlaceItem from './PlaceItem';
 import PopUpMemo from './PopupMemo';
-interface ISearchPlace {
+
+interface IMapsProps {
   searchPlace: string;
+  markers: IMarkers[];
+  setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
 }
 export interface IMarkers {
   position: { lat: number; lng: number };
@@ -12,9 +14,9 @@ export interface IMarkers {
   address?: string;
 }
 
-const Maps = ({ searchPlace }: ISearchPlace) => {
+const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
   const [info, setInfo] = useState<IMarkers>();
-  const [markers, setMarkers] = useState<IMarkers[]>([]);
+  // const [markers, setMarkers] = useState<IMarkers[]>([]);
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
 
@@ -45,7 +47,6 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
           // @ts-ignore
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
-
         setMarkers(newMarkers);
         map.setBounds(bounds);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -60,7 +61,6 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
 
   return (
     <>
-      <PlaceItem markers={markers} setMarkers={setMarkers} />
       <Map
         // 지도를 표시할 Container
         center={state.center}

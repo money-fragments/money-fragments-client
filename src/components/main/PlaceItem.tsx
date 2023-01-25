@@ -1,14 +1,14 @@
 import React from 'react';
 import { IMarkers } from './Maps';
+
 interface IPlaceItemProps {
-  markers: IMarkers[];
-  setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
+  list: IMarkers[];
 }
 
-const PlaceItem = ({ markers, setMarkers }: IPlaceItemProps) => {
+const PlaceItem = ({ list }: IPlaceItemProps) => {
   return (
     <>
-      {markers.map((item) => (
+      {list.map((item) => (
         <ul>
           <li>
             {item.content}

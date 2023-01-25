@@ -18,11 +18,9 @@ const AuthSocial = (): JSX.Element => {
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then((response) => {
-        console.log(response.user.uid);
         navigate('/main');
       })
       .catch((error) => {
-        console.log(error);
         setSocial(false);
       });
   };
@@ -32,11 +30,9 @@ const AuthSocial = (): JSX.Element => {
 
     signInWithPopup(auth, new GithubAuthProvider())
       .then((response) => {
-        console.log(response.user.uid);
         navigate('/main');
       })
       .catch((error) => {
-        console.log(error);
         setSocial(false);
       });
   };

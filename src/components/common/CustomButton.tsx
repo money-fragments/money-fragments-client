@@ -15,7 +15,7 @@ interface ButtonProps {
 export const CustomButton = styled.button<ButtonProps>`
   border: 0.5px solid gray;
   box-shadow: 0px 2px 2px lightgray;
-
+  cursor: pointer;
   background: ${(props) =>
     props.backgroundColor
       ? (props: any) => props.theme.colors[`${props.backgroundColor}`]

@@ -1,7 +1,9 @@
-import React from 'react';
-
 const Landing = () => {
-  return <div>loading..</div>;
+  return (
+    <div>
+      <h1>Landing page 입니다.</h1>
+    </div>
+  );
 };
 
 export default Landing;

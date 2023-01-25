@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Content, H6 } from 'components/common';
 import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import logging from './logging';
 import AuthSocial from './AuthSocial';
 
 const SignUp = (): JSX.Element => {
@@ -27,13 +26,10 @@ const SignUp = (): JSX.Element => {
     setRegistering(true);
     await createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        logging.info(result);
         alert('회원가입 축하합니다');
         navigate('/login');
       })
       .catch((error) => {
-        logging.error(error);
-
         if (error.code.includes('auth/weak-password')) {
           setError('Password already in use');
           alert('6글자 이상 비밀번호를 작성해주세요');

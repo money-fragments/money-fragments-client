@@ -85,7 +85,7 @@ const SignUp = (): JSX.Element => {
           id="confirm"
           value={confirm}
           onChange={(event) => setConfirm(event.target.value)}
-          placeholder="비밀번호를 다시 요입력해주세요"
+          placeholder="비밀번호를 다시 입력해주세요"
         />
       </SignUpEmailPwContainer>
 

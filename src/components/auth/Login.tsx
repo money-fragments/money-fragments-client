@@ -46,7 +46,7 @@ const Login = (): JSX.Element => {
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="Email Address"
+          placeholder="이메일을 요입력해주세요"
         />
         <LoginPwTextDiv>
           <Content>Password</Content>
@@ -57,7 +57,7 @@ const Login = (): JSX.Element => {
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          placeholder="Enter Password"
+          placeholder="비밀번호를 입력해주세요"
         />
       </LoginEmailPwContainer>
 
@@ -81,14 +81,13 @@ const Login = (): JSX.Element => {
       </LoginOtherMethod>
 
       <LoginCheckContainer>
-        <Content>Don't have an account?</Content>
         <Link to={'/signUp'}>
-          <LoginCheckSignDiv>Register here</LoginCheckSignDiv>
+          <LoginCheckSignDiv>아직 회원이 아니신가요?</LoginCheckSignDiv>
         </Link>
       </LoginCheckContainer>
 
       <PwForgotContainer>
-        <Link to={'/forgot'}>Forgot your Password?</Link>
+        <Link to={'/forgot'}>비밀번호를 잃어버리셨나요?</Link>
       </PwForgotContainer>
     </LoginContainer>
   );

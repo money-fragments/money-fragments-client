@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Content, H6 } from 'components/common';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
-import logging from './logging';
 import AuthSocial from './AuthSocial';
 
 const Login = (): JSX.Element => {
@@ -20,12 +19,10 @@ const Login = (): JSX.Element => {
 
     setAuthenticating(true);
     await signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        logging.info(result);
+      .then(() => {
         navigate('/main');
       })
-      .catch((error) => {
-        logging.error(error);
+      .catch(() => {
         alert('로그인 실패, 다시 입력해주세요');
         setAuthenticating(false);
         setError('Failed Login');
@@ -46,7 +43,7 @@ const Login = (): JSX.Element => {
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="이메일을 요입력해주세요"
+          placeholder="이메일을 입력해주세요"
         />
         <LoginPwTextDiv>
           <Content>Password</Content>

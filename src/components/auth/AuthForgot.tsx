@@ -2,7 +2,6 @@ import { Content, H6 } from 'components/common';
 import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
 import { useState } from 'react';
 import styled from 'styled-components';
-import logging from './logging';
 
 const AuthForgot = (): JSX.Element => {
   const [sending, setSending] = useState<boolean>(false);
@@ -17,13 +16,11 @@ const AuthForgot = (): JSX.Element => {
     setSending(true);
     await sendPasswordResetEmail(auth, email)
       .then(() => {
-        logging.info('Email sent');
         alert('이메일에 링크를 보냈습니다');
         setSent(true);
         setSending(false);
       })
       .catch((error) => {
-        logging.error(error);
         alert('이메일 보내기에 실패하였습니다');
         setError(error.message);
         setSending(false);

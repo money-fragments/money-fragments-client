@@ -3,7 +3,6 @@ import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logging from './logging';
 
 const AuthLogout = (): JSX.Element => {
   const navigate = useNavigate();

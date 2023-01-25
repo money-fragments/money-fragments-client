@@ -1,6 +1,5 @@
 import { Login, SignUp } from 'components/auth';
 import AuthForgot from 'components/auth/AuthForgot';
-import AuthLogout from 'components/auth/AuthLogout';
 import { Landing } from 'components/landing';
 import Main from 'components/main/Main';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -21,14 +20,6 @@ const Router = () => {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route
-          path="/logout"
-          element={
-            <AuthRoute>
-              <AuthLogout />
-            </AuthRoute>
-          }
-        />
         <Route path="/forgot" element={<AuthForgot />} />
       </Routes>
     </BrowserRouter>

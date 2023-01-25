@@ -1,10 +1,12 @@
 import { Content } from 'components/common';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Maps from './Maps';
-const SearchPlace = () => {
+
+interface ISearchPlaceProps {
+  setPlace: React.Dispatch<React.SetStateAction<string>>;
+}
+const SearchPlace = ({ setPlace }: ISearchPlaceProps) => {
   const [inputText, setInputText] = useState('');
-  const [place, setPlace] = useState('');
   const onChangeInputText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
@@ -27,28 +29,24 @@ const SearchPlace = () => {
           <Content>검색</Content>
         </CustomBtn>
       </PlaceForm>
-      <Maps searchPlace={place} />
     </>
   );
 };
 
 const PlaceForm = styled.form`
-  position: absolute;
-  width: 400px;
-  top: 15px;
-  left: 150px;
+  width: 90%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 const PlaceInput = styled.input`
-  width: 70%;
+  width: 80%;
 `;
 const CustomBtn = styled.button`
   width: 60px;
   height: 35px;
   border-radius: 17px;
   border-style: none;
-  background-color: ${(props) => props.theme.colors.brand0};
+  background-color: ${(props) => props.theme.colors.brandYellow};
 `;
 export default SearchPlace;

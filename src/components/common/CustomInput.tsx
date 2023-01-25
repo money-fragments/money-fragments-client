@@ -15,8 +15,7 @@ interface InputProps {
 export const CustomInput = styled.input<InputProps>`
   border: 0.5px solid gray;
   box-shadow: 0px 2px 2px lightgray;
-  padding: 0px 5px;
-
+  padding: 0px 10px;
   background: ${(props) =>
     props.backgroundColor
       ? (props: any) => props.theme.colors[`${props.backgroundColor}`]
@@ -34,5 +33,5 @@ export const CustomInput = styled.input<InputProps>`
     props.fontSize
       ? (props: any) => props.theme.fontSize[`${props.fontSize}`]
       : (props) => props.theme.fontSize.content};
-  border-radius: ${(props) => props.borderRadius || '0px'};
+  border-radius: ${(props) => props.borderRadius || '5px'};
 `;

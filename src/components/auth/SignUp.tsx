@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { Content, H6 } from 'components/common';
 import { auth } from '../../firebase';
@@ -18,7 +17,11 @@ const SignUp = (): JSX.Element => {
   const navigate = useNavigate();
 
   const onClickSignUpHandler = async () => {
-    if (password !== confirm) setError('비밀번호가 일치하지 않습니다');
+    if (password !== confirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      setError('비밀번호가 일치하지 않습니다');
+      return;
+    }
     if (error !== '') setError('');
 
     setRegistering(true);
@@ -32,9 +35,14 @@ const SignUp = (): JSX.Element => {
         logging.error(error);
 
         if (error.code.includes('auth/weak-password')) {
-          setError('다른 비밀번호로 해주세요');
+          setError('Password already in use');
+          alert('6글자 이상 비밀번호를 작성해주세요');
         } else if (error.code.includes('auth/email-already')) {
-          setError('이메일이 이미 존재합니다');
+          setError('email-already');
+          alert('이메일이 이미 존재합니다');
+        } else {
+          setError('Unable to register.  Please try again later.');
+          alert('등록할 수 없습니다. 다시 시도해주세요');
         }
         setRegistering(false);
       });
@@ -75,7 +83,7 @@ const SignUp = (): JSX.Element => {
           name="confirm"
           type="password"
           id="confirm"
-          value={password}
+          value={confirm}
           onChange={(event) => setConfirm(event.target.value)}
           placeholder="Confirm Password"
         />
@@ -102,7 +110,7 @@ const SignUp = (): JSX.Element => {
 
       <SignUpCheckContainer>
         <Link to={'/login'}>
-          <SignUpCheckSign>이미 회원이신가요?</SignUpCheckSign>
+          <SignUpCheckSign>Already have an account?</SignUpCheckSign>
         </Link>
       </SignUpCheckContainer>
     </SignUpContainer>

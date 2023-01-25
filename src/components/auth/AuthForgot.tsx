@@ -45,7 +45,7 @@ const AuthForgot = (): JSX.Element => {
               type="email"
               name="email"
               id="email"
-              placeholder="Email Address"
+              placeholder="이메일을 작성해주세요"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />

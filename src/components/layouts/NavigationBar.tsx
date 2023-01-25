@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
+import { CustomButton } from 'components/common/CustomButton';
+import { H6 } from 'components/common';
+import logo from '../assets/logo.png'
+import logo2 from '../assets/logo2.png'
 
-
-function NavigationBar() {
+const NavigationBar = () => {
 
 
     const navigate = useNavigate();
@@ -20,31 +23,31 @@ function NavigationBar() {
     
     
   return (
-<NavigationBarContainer>
-    <NavigationBarLogoMenuContainer>
-        <NavigationBarLogo onClick={goLanding}>
-            로고
-        </NavigationBarLogo>
+    <NavigationBarContainer>
+      <NavigationBarLogoMenuContainer>
+        <NavigationBarLogo
+          src={require('../assets/logo.png')}
+          onClick={goLanding}
+        />
         <NavigationBarMenuContainer>
-            <NavigationBarMenuButton>
-                Nav1
-            </NavigationBarMenuButton>
-            <NavigationBarMenuButton>
-                Nav2
-            </NavigationBarMenuButton>
-            <NavigationBarMenuButton>
-                Nav3
-            </NavigationBarMenuButton>
-            <NavigationBarMenuButton>
-                Nav4
-            </NavigationBarMenuButton>
+          <NavigationBarMenuButton>Nav1</NavigationBarMenuButton>
+          <NavigationBarMenuButton>Nav2</NavigationBarMenuButton>
+          <NavigationBarMenuButton>Nav3</NavigationBarMenuButton>
+          <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>
         </NavigationBarMenuContainer>
-    </NavigationBarLogoMenuContainer>
-    <NavigationBarAuth onClick={goAuth}>    
+      </NavigationBarLogoMenuContainer>
+      <CustomButton
+        style={{ marginRight: '20px' }}
+        width="150px"
+        height="40px"
+        backgroundColor="brand0"
+        fontSize="h6"
+        onClick={goAuth}
+      >
         로그인/회원가입
-    </NavigationBarAuth>
-</NavigationBarContainer>
-  )
+      </CustomButton>
+    </NavigationBarContainer>
+  );
 }
 
 export default NavigationBar
@@ -65,9 +68,9 @@ const NavigationBarLogoMenuContainer = styled.div`
     align-items: center;
 `
 
-const NavigationBarLogo = styled.div`
-    margin-left: 20px;
-    cursor: pointer;
+const NavigationBarLogo = styled.img`
+   height: 100px;
+   cursor: pointer;
 `
 
 const NavigationBarMenuContainer = styled.div`
@@ -84,5 +87,8 @@ const NavigationBarMenuButton = styled.div`
 const NavigationBarAuth = styled.button`
     margin-right: 40px;
     cursor: pointer;
+`
+const NavigationBarAuthButton = styled.div`
+    margin-right: 10px;
 `
 

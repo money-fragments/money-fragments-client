@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
+import PlaceItem from './PlaceItem';
 import PopUpMemo from './PopupMemo';
 interface ISearchPlace {
   searchPlace: string;
 }
-interface IMarkers {
+export interface IMarkers {
   position: { lat: number; lng: number };
   content?: string;
+  address?: string;
 }
 
 const Maps = ({ searchPlace }: ISearchPlace) => {
@@ -28,15 +30,6 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(searchPlace, (data, status, _pagination) => {
       if (status === kakao.maps.services.Status.OK) {
-        // const newSearch = data[0];
-
-        // setState({
-        //   center: {
-        //     lat: newSearch.y as unknown as number,
-        //     lng: newSearch.x as unknown as number,
-        //   },
-        // });
-
         const bounds = new kakao.maps.LatLngBounds();
         let newMarkers = [];
         for (var i = 0; i < data.length; i++) {
@@ -47,10 +40,12 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
               lng: data[i].x as unknown as number,
             },
             content: data[i].place_name,
+            address: data[i].address_name,
           });
           // @ts-ignore
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
+
         setMarkers(newMarkers);
         map.setBounds(bounds);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -64,44 +59,45 @@ const Maps = ({ searchPlace }: ISearchPlace) => {
   }, [searchPlace]);
 
   return (
-    <Map
-      // 지도를 표시할 Container
-      center={state.center}
-      isPanto={state.isPanto}
-      style={{
-        // 지도의 크기
-        width: '100%',
-        height: '100vh',
-      }}
-      level={3} // 지도의 확대 레벨
-      onCreate={setMap}
-    >
-      {markers.map((marker) => (
-        // if(marker !== undefined){
-
-        <MapMarker
-          key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-          position={marker.position}
-          onClick={() => setInfo(marker)}
-        >
-          {info && info.content === marker.content && (
-            <div
-              style={{ color: '#000' }}
-              onClick={() => setIsPopupMemoOpen(true)}
-            >
-              {marker.content}
-              {isPopupMemoOpen && (
-                <CustomOverlayMap position={marker.position} clickable={true}>
-                  <PopUpMemo
-                    setIsPopupMemoOpen={setIsPopupMemoOpen}
-                  ></PopUpMemo>
-                </CustomOverlayMap>
-              )}
-            </div>
-          )}
-        </MapMarker>
-      ))}
-    </Map>
+    <>
+      <PlaceItem markers={markers} setMarkers={setMarkers} />
+      <Map
+        // 지도를 표시할 Container
+        center={state.center}
+        isPanto={state.isPanto}
+        style={{
+          // 지도의 크기
+          width: '100%',
+          height: '100vh',
+        }}
+        level={3} // 지도의 확대 레벨
+        onCreate={setMap}
+      >
+        {markers.map((marker) => (
+          <MapMarker
+            key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+            position={marker.position}
+            onClick={() => setInfo(marker)}
+          >
+            {info && info.content === marker.content && (
+              <div
+                style={{ color: '#000' }}
+                onClick={() => setIsPopupMemoOpen(true)}
+              >
+                {marker.content}
+                {isPopupMemoOpen && (
+                  <CustomOverlayMap position={marker.position} clickable={true}>
+                    <PopUpMemo
+                      setIsPopupMemoOpen={setIsPopupMemoOpen}
+                    ></PopUpMemo>
+                  </CustomOverlayMap>
+                )}
+              </div>
+            )}
+          </MapMarker>
+        ))}
+      </Map>
+    </>
   );
 };
 export default Maps;

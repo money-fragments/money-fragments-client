@@ -6,13 +6,16 @@ import Maps from './Maps';
 const Main = () => {
   const [isOpenListUp, setIsOpenListUp] = useState(false);
   const [place, setPlace] = useState('');
-
   return (
     <MainPageContainer>
       <Header setIsOpenListUp={setIsOpenListUp} isOpenListUp={isOpenListUp} />
       <MapContainer>
         <Maps searchPlace={place} />
-        {isOpenListUp && <ListUp setPlace={setPlace} />}
+        {isOpenListUp && (
+          <>
+            <ListUp setPlace={setPlace} />
+          </>
+        )}
       </MapContainer>
     </MainPageContainer>
   );

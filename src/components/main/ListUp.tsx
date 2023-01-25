@@ -1,23 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchPlace from './SearchPlace';
-interface ISearchPlaceProps {
+
+interface IListUpProps {
   setPlace: React.Dispatch<React.SetStateAction<string>>;
 }
-const ListUp = ({ setPlace }: ISearchPlaceProps) => {
+const ListUp = ({ setPlace }: IListUpProps) => {
   return (
     <>
       <ListContainer>
         <SearchPlace setPlace={setPlace} />
-        <ul>
-          <li>장소명</li>
-        </ul>
-        <ul>
-          <li>장소명</li>
-        </ul>
-        <ul>
-          <li>장소명</li>
-        </ul>
       </ListContainer>
     </>
   );
@@ -31,7 +23,7 @@ const ListContainer = styled.div`
   width: 300px;
   min-height: 600px;
   max-height: fit-content;
-  background-color: ${(props) => props.theme.colors.brand0};
+  background-color: ${(props) => props.theme.colors.mono60};
   border-radius: 15px;
 `;
 export default ListUp;

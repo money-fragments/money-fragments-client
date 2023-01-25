@@ -86,7 +86,7 @@ const ResetPwInput = styled.input`
 const ResetPwBtn = styled.button`
   margin-top: 20px;
   height: 30px;
-  width: 100px;
+  width: 130px;
   font-weight: 600;
   border-radius: 10px;
   border: 1px solid ${(props) => props.theme.colors.white0};

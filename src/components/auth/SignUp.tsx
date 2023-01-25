@@ -62,7 +62,7 @@ const SignUp = (): JSX.Element => {
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="Email Address"
+          placeholder="이메일을 입력해주세요"
         />
         <SignUpPwTextDiv>
           <Content>Password</Content>
@@ -73,7 +73,7 @@ const SignUp = (): JSX.Element => {
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          placeholder="Enter Password"
+          placeholder="비밀번호를 입력해주세요"
         />
         <SignUpPwConfirm>
           <Content>Password Confirm</Content>
@@ -85,7 +85,7 @@ const SignUp = (): JSX.Element => {
           id="confirm"
           value={confirm}
           onChange={(event) => setConfirm(event.target.value)}
-          placeholder="Confirm Password"
+          placeholder="비밀번호를 다시 요입력해주세요"
         />
       </SignUpEmailPwContainer>
 
@@ -110,7 +110,7 @@ const SignUp = (): JSX.Element => {
 
       <SignUpCheckContainer>
         <Link to={'/login'}>
-          <SignUpCheckSign>Already have an account?</SignUpCheckSign>
+          <SignUpCheckSign>이미 회원이신가요?</SignUpCheckSign>
         </Link>
       </SignUpCheckContainer>
     </SignUpContainer>

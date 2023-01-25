@@ -2,12 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import { H1, H6 } from 'components/common';
 import GlobalStyle from 'styles/GlobalStyle';
-const Header = () => {
+import { FaSearchLocation } from 'react-icons/fa';
+
+interface IHeaderProps {
+  setIsOpenListUp: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenListUp: boolean;
+}
+
+const Header = ({ setIsOpenListUp, isOpenListUp }: IHeaderProps) => {
   return (
     <>
       <GlobalStyle />
       <Top>
         <H1>로고</H1>
+        <FaSearchLocation
+          style={{ width: '30px', height: '30px' }}
+          onClick={() => setIsOpenListUp(!isOpenListUp)}
+        />
         <CustomBtn>
           <H6>로그인/회원가입</H6>
         </CustomBtn>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import ListUp from './ListUp';
 import Maps from './Maps';
+
 import { IMarkers } from './Maps';
 
 const Main = () => {

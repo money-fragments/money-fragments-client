@@ -1,2 +1,4 @@
 import Main from './Main';
-export { Main };
+import MainDetailUi from './MainDetailUi';
+
+export { Main, MainDetailUi };

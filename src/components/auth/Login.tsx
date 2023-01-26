@@ -1,10 +1,34 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Content, H6 } from 'components/common';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
+import AuthSocial from './AuthSocial';
 
-const Login = () => {
+const Login = (): JSX.Element => {
+  const [authenticating, setAuthenticating] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const onClickLoginHandler = async () => {
+    if (error !== '') setError('');
+
+    setAuthenticating(true);
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigate('/main');
+      })
+      .catch(() => {
+        alert('로그인 실패, 다시 입력해주세요');
+        setAuthenticating(false);
+        setError('Failed Login');
+      });
+  };
+
   return (
     <LoginContainer>
       <LoginTextDiv>
@@ -13,15 +37,32 @@ const Login = () => {
 
       <LoginEmailPwContainer>
         <Content>E-mail</Content>
-        <LoginEmailInput placeholder="이메일을 입력해주세요" />
+        <LoginEmailInput
+          name="email"
+          type="email"
+          id="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="이메일을 입력해주세요"
+        />
         <LoginPwTextDiv>
           <Content>Password</Content>
         </LoginPwTextDiv>
-        <LoginPwInput placeholder="비밀번호를 입력해주세요" />
+        <LoginPwInput
+          name="password"
+          type="password"
+          id="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          placeholder="비밀번호를 입력해주세요"
+        />
       </LoginEmailPwContainer>
 
       <LoginBtnContainer>
-        <LoginBtn>
+        <LoginBtn
+          disabled={authenticating}
+          onClick={() => onClickLoginHandler()}
+        >
           <Content>Login</Content>
         </LoginBtn>
       </LoginBtnContainer>
@@ -32,16 +73,19 @@ const Login = () => {
         </LoginOrLine>
 
         <LoginGoogleGitContainer>
-          <FaGoogle size="48px" />
-          <FaGithub size="48px" />
+          <AuthSocial />
         </LoginGoogleGitContainer>
       </LoginOtherMethod>
 
       <LoginCheckContainer>
-        <Link to={'/SignUp'}>
+        <Link to={'/signUp'}>
           <LoginCheckSignDiv>아직 회원이 아니신가요?</LoginCheckSignDiv>
         </Link>
       </LoginCheckContainer>
+
+      <PwForgotContainer>
+        <Link to={'/forgot'}>비밀번호를 잃어버리셨나요?</Link>
+      </PwForgotContainer>
     </LoginContainer>
   );
 };
@@ -135,7 +179,7 @@ const LoginGoogleGitContainer = styled.div`
   align-items: center;
 `;
 
-const LoginCheckContainer = styled.div`
+const LoginCheckContainer = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -143,7 +187,24 @@ const LoginCheckContainer = styled.div`
   a {
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 5px;
+    transition: color 0.2s ease-in;
+  }
+  &:hover {
+    a {
+      color: ${(props) => props.theme.colors.brandRed};
+    }
+  }
+`;
+const PwForgotContainer = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
     transition: color 0.2s ease-in;
   }
   &:hover {

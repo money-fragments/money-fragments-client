@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
@@ -15,12 +16,15 @@ const NavigationBar = () => {
     navigate('/Login');
   };
 
+
   return (
     <NavigationBarContainer>
       <NavigationBarLogoMenuContainer>
         <NavigationBarLogo
           src={require('../assets/logo.png')}
+
           onClick={goMain}
+
         />
         <NavigationBarMenuContainer>
           <NavigationBarMenuButton>Nav1</NavigationBarMenuButton>
@@ -29,7 +33,9 @@ const NavigationBar = () => {
           <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>
         </NavigationBarMenuContainer>
       </NavigationBarLogoMenuContainer>
+
       <CustomButton className="NavigationBtn" onClick={goAuth}>
+
         로그인/회원가입
       </CustomButton>
     </NavigationBarContainer>

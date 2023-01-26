@@ -1,5 +1,7 @@
+
 import styled from 'styled-components';
 import landingpage from '../assets/landingpage.png';
+
 import { H1 } from 'components/common';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
@@ -8,13 +10,16 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const goAuth = () => {
+
     navigate('/Login');
   };
+
 
   return (
     <LandingPageContainer>
       <LandingPageTitle>
         <H1>
+
           반갑습니다.
           <br />
           돈관리 어플💸
@@ -28,8 +33,10 @@ const Landing = () => {
 
 const LandingPageContainer = styled.div`
   background-image: linear-gradient(
+
       rgba(255, 255, 255, 0.6),
       rgba(255, 255, 255, 0.6)
+
     ),
     url(${landingpage});
   display: flex;

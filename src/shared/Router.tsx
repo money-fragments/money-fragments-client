@@ -6,8 +6,8 @@ import Main from 'components/main/Main';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
 
-const Router = () => {
-  return (
+const Router = () =>{
+  return(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -23,10 +23,11 @@ const Router = () => {
             }
           />
           <Route path="/Forgot" element={<AuthForgot />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default Router;

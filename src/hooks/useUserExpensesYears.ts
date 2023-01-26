@@ -4,8 +4,9 @@ import { getUserExpenseYears } from 'utils/api';
 
 const useUserExpenseYears = (userId: string) => {
   const [years, setYears] = useState<number[]>([]);
-  const { data } = useQuery<Expense[], Error>(['userExpenseYears'], () =>
-    getUserExpenseYears(userId)
+  const { data, isError, isLoading, error } = useQuery<Expense[], Error>(
+    ['userExpenseYears'],
+    () => getUserExpenseYears(userId)
   );
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const useUserExpenseYears = (userId: string) => {
     }
   }, [data]);
 
-  return { years };
+  return { years, isError, isLoading, error };
 };
 
 export default useUserExpenseYears;

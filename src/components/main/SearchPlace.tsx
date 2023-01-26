@@ -47,6 +47,6 @@ const CustomBtn = styled.button`
   height: 35px;
   border-radius: 17px;
   border-style: none;
-  background-color: ${(props) => props.theme.colors.brandYellow};
+  background-color: ${(props) => props.theme.colors.brand0};
 `;
 export default SearchPlace;

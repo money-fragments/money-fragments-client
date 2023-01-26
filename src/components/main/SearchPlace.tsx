@@ -1,6 +1,6 @@
-import { Content } from 'components/common';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CustomButton } from 'components/common/CustomButton';
 
 interface ISearchPlaceProps {
   setPlace: React.Dispatch<React.SetStateAction<string>>;
@@ -16,18 +16,15 @@ const SearchPlace = ({ setPlace }: ISearchPlaceProps) => {
     setPlace(inputText);
     setInputText('');
   };
-
   return (
     <>
       <PlaceForm className="inputForm" onSubmit={handlePlaceSubmit}>
         <PlaceInput
-          placeholder="간단한 장소, 지명을 입력해주세요. ex) 강남역, 버거킹"
+          placeholder="간단한 장소, 지명을 입력해주세요. ex) 버거킹, 강남역"
           onChange={onChangeInputText}
           value={inputText}
         />
-        <CustomBtn type="submit">
-          <Content>검색</Content>
-        </CustomBtn>
+        <SearchBtn type="submit">검색</SearchBtn>
       </PlaceForm>
     </>
   );
@@ -42,11 +39,11 @@ const PlaceForm = styled.form`
 const PlaceInput = styled.input`
   width: 80%;
 `;
-const CustomBtn = styled.button`
+const SearchBtn = styled(CustomButton)`
   width: 60px;
   height: 35px;
   border-radius: 17px;
   border-style: none;
-  background-color: ${(props) => props.theme.colors.brand0};
+  background-color: ${(props) => props.theme.colors.brand50};
 `;
 export default SearchPlace;

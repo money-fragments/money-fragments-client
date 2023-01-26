@@ -25,17 +25,17 @@ const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
         <ContentBox>
           {/* 어디서 */}
           <WhereBox>
-            <Content className="expense-where">어디서 사용하셨나요?</Content>
+            <ExpenseWhere>어디서 사용하셨나요?</ExpenseWhere>
             <input className="input-where" type="text" />
           </WhereBox>
           {/* 무엇을 */}
           <WhatBox>
-            <Content className="expense-what">어떤 걸 구매하셨나요?</Content>
+            <ExpenseWhat>어떤 걸 구매하셨나요?</ExpenseWhat>
             <input className="input-what" type="text" />
           </WhatBox>
           {/* 얼마를 */}
           <HowMuchBox>
-            <Content className="expense-how">얼마를 지불하셨나요?</Content>
+            <ExpenseHowMuch>얼마를 지불하셨나요?</ExpenseHowMuch>
             <input className="input-how" type="text" />
           </HowMuchBox>
           <BtnBox>
@@ -73,13 +73,6 @@ const MemoContainer = styled.div`
 const ContentBox = styled.div`
   position: absolute;
   margin-top: 41px;
-  .expense-where,
-  .expense-what,
-  .expense-how {
-    display: block;
-    /* mono30W로 변경 필요 */
-    color: ${(props) => props.theme.colors.white100};
-  }
   .input-where,
   .input-what,
   .input-how {
@@ -89,6 +82,19 @@ const ContentBox = styled.div`
     border-radius: 10px;
     border-style: none;
   }
+`;
+// 코드가 반복되는디?
+const ExpenseWhere = styled(Content)`
+  display: block;
+  color: ${(props) => props.theme.colors.white100};
+`;
+const ExpenseWhat = styled(Content)`
+  display: block;
+  color: ${(props) => props.theme.colors.white100};
+`;
+const ExpenseHowMuch = styled(Content)`
+  display: block;
+  color: ${(props) => props.theme.colors.white100};
 `;
 const WhereBox = styled.div`
   /* margin-top: 41px; */

@@ -5,9 +5,16 @@ import { IMarkers } from './Maps';
 
 interface IPlaceItemProps {
   list: IMarkers[];
+  // isMouseOver: boolean;
+  // setIsMouseOver: React.Dispatch<React.SetStateAction<(string | boolean)[]>>;
 }
 
 const PlaceItem = ({ list }: IPlaceItemProps) => {
+  // const [isMouseOver, setIsMouseOver] = useState(false);
+
+  // const handleMouseOverItem = () => {
+
+  // };
   return (
     <>
       {list.map((item) => (
@@ -16,10 +23,10 @@ const PlaceItem = ({ list }: IPlaceItemProps) => {
         >
           <ul>
             <li>
-              <H6 className="place-name">{item.content}</H6>
+              <ItemContent>{item.content}</ItemContent>
             </li>
             <li>
-              <Content className="address-name">{item.address}</Content>
+              <ItemAddress>{item.address}</ItemAddress>
             </li>
           </ul>
         </ListItem>
@@ -35,13 +42,11 @@ const ListItem = styled.div`
   background-color: ${(props) => props.theme.colors.white100};
   border-radius: 15px;
   margin: 10px 0;
-  .place-name {
-    color: ${(props) => props.theme.colors.black60};
-    margin-bottom: 5px;
-  }
-  .address-name {
-    color: ${(props) => props.theme.colors.black30};
-  }
 `;
-
+const ItemContent = styled(H6)`
+  color: ${(props) => props.theme.colors.black60};
+`;
+const ItemAddress = styled(Content)`
+  color: ${(props) => props.theme.colors.black30};
+`;
 export default PlaceItem;

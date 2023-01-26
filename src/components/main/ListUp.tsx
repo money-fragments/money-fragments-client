@@ -26,10 +26,12 @@ const ListContainer = styled.div`
   top: 60px;
   left: 10px;
   width: 300px;
-  min-height: 600px;
-  max-height: 90%;
-  overflow: scroll;
-  background-color: ${(props) => props.theme.colors.mono60};
+  height: 100%;
+  max-height: 600px;
+  overflow-y: scroll;
+  /* background-color: ${(props) => props.theme.colors.mono60};
+  */
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
 `;
 const ListAlign = styled.div`

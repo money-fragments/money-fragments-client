@@ -1,13 +1,14 @@
 import MainDetailUi from './MainDetailUi';
+import styled from 'styled-components';
 
 const Main = () => {
   return (
-    <div>
+    <MainContainer>
       <MainDetailUi />
-    </div>
+    </MainContainer>
   );
 };
 
-
+const MainContainer = styled.div``;
 
 export default Main;

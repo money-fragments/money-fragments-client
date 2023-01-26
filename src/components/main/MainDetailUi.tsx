@@ -133,10 +133,11 @@ const RecordBtn = styled(CustomButton)`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  font-weight: 600;
+  font-weight: 500;
   background-color: ${(props) => props.theme.colors.brand0};
   &:active {
     background-color: ${(props) => props.theme.colors.brand50};
+    color: ${(props) => props.theme.colors.white30};
   }
 `;
 

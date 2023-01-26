@@ -1,10 +1,17 @@
-
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
+import { getAuth } from 'firebase/auth';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
+  const Logout = () => {
+    auth
+      .signOut()
+      .then(() => navigate('/Login'))
+      .catch(() => alert('error'));
+  };
 
   // 메인 페이지 이동
   const goMain = () => {
@@ -16,15 +23,12 @@ const NavigationBar = () => {
     navigate('/Login');
   };
 
-
   return (
     <NavigationBarContainer>
       <NavigationBarLogoMenuContainer>
         <NavigationBarLogo
           src={require('../assets/logo.png')}
-
           onClick={goMain}
-
         />
         <NavigationBarMenuContainer>
           <NavigationBarMenuButton>Nav1</NavigationBarMenuButton>
@@ -33,7 +37,11 @@ const NavigationBar = () => {
           <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>
         </NavigationBarMenuContainer>
       </NavigationBarLogoMenuContainer>
-      <NavigationBtn onClick={goAuth}>로그인/회원가입</NavigationBtn>
+      {auth.currentUser ? (
+        <NavigationBtn onClick={() => Logout()}>로그아웃</NavigationBtn>
+      ) : (
+        <NavigationBtn onClick={goAuth}>로그인/회원가입</NavigationBtn>
+      )}
     </NavigationBarContainer>
   );
 };
@@ -76,5 +84,9 @@ const NavigationBtn = styled(CustomButton)`
   height: 40px;
   margin-right: 20px;
   font-weight: 500;
+  &:active {
+    background-color: ${(props) => props.theme.colors.brand50};
+    color: ${(props) => props.theme.colors.white30};
+  }
 `;
 export default NavigationBar;

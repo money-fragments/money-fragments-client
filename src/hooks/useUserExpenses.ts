@@ -12,7 +12,7 @@ const useUserExpenses = (userId: string, year: string) => {
   >(['userExpenses'], () => getSelectedYearUserExpense(userId, year));
 
   useEffect(() => {
-    const monthlyExpense: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const monthlyExpense: number[] = Array.from({ length: 12 }, () => 0);
 
     if (data) {
       data.forEach((expense) => {

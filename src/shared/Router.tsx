@@ -10,23 +10,12 @@ const Router = () =>{
   return(
     <BrowserRouter>
       <Routes>
-<Route path="/" element={<Landing />} />
-        {/* 네비게이션바 표시 */}
-        <Route element={<Layout />}>
-        
-        <Route
-          path="/main"
-          element={
-            <AuthRoute>
-              <Main />
-            </AuthRoute>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/forgot" element={<AuthForgot />} />
+        <Route path="/" element={<Landing />} />
+                <Route element={<Layout />}>
+          <Route path="/Login" element={<Login />} />
+          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/Main" element={<Main />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

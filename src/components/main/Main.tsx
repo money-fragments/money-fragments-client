@@ -1,12 +1,20 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import styled from 'styled-components';
+import MainDetailUi from './MainDetailUi';
 
-export default function Main() {
+const Main = () => {
   return (
     <div>
-      여기가 main입니다.
-      <button>
-        <Link to="/">로그아웃</Link>
-      </button>
+      <NaviTest>여기에는 Navibar가 들어갑니다</NaviTest>
+      <MainDetailUi />
     </div>
   );
-}
+};
+
+const NaviTest = styled.header`
+  height: 60px;
+  background-color: #b2b0b0;
+`;
+
+export default Main;
+

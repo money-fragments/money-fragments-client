@@ -8,26 +8,26 @@ const MainDetailUi = () => {
   return (
     <MainDetailContainer>
       <IconCloseBtn>
-        <IoIosCloseCircleOutline className="closeBtn" size={30} />
+        <CloseBtn size={30} />
       </IconCloseBtn>
       <WhereUseDiv>
-        <Content className="where">어디서 사용하셨나요?</Content>
-        <CustomInput className="whereInput" autoFocus />
+        <WhereText>어디서 사용하셨나요?</WhereText>
+        <WhereInput autoFocus />
       </WhereUseDiv>
       <WhatUseDiv>
-        <Content className="what">어떤 것을 구매하셨나요?</Content>
-        <CustomInput className="whatInput" />
+        <WhatText>어떤 것을 구매하셨나요?</WhatText>
+        <WhatInput />
       </WhatUseDiv>
       <PayUseDiv>
-        <Content className="pay">얼마나 지불하셨나요?</Content>
-        <CustomInput className="payInput" />
+        <PayText>얼마나 지불하셨나요?</PayText>
+        <PayInput />
       </PayUseDiv>
       <ExperienceDiv>
-        <Content className="experience">어떤 경험을 하셨나요?</Content>
+        <ExperienceText>어떤 경험을 하셨나요?</ExperienceText>
         <ExperienceArea />
       </ExperienceDiv>
 
-      <CustomButton className="recordBtn">기록하기</CustomButton>
+      <RecordBtn>기록하기</RecordBtn>
     </MainDetailContainer>
   );
 };
@@ -37,32 +37,21 @@ const MainDetailContainer = styled.div`
   float: right;
   width: 410px;
   height: 100vh;
-  .recordBtn {
-    width: 370px;
-    height: 30px;
-    display: flex;
-    margin: 0 auto;
-    padding-left: 37%;
-    font-weight: 500;
-    background-color: ${(props) => props.theme.colors.brand0};
-    &:active {
-      background-color: ${(props) => props.theme.colors.brand50};
-    }
-  }
 `;
+
 const IconCloseBtn = styled.button`
   border-radius: 20px;
   margin-top: 5px;
   background-color: ${(props) => props.theme.colors.black60};
   border: 2px solid ${(props) => props.theme.colors.black60};
-
-  .closeBtn {
-    color: ${(props) => props.theme.colors.brand0};
-    &:active {
-      color: ${(props) => props.theme.colors.brand50};
-    }
+`;
+const CloseBtn = styled(IoIosCloseCircleOutline)`
+  color: ${(props) => props.theme.colors.brand0};
+  &:active {
+    color: ${(props) => props.theme.colors.brand50};
   }
 `;
+
 const WhereUseDiv = styled.div`
   width: 370px;
   height: 70px;
@@ -71,16 +60,16 @@ const WhereUseDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
-  .where {
-    color: ${(props) => props.theme.colors.white60};
-  }
-  .whereInput {
-    background-color: ${(props) => props.theme.colors.black0};
-    width: 350px;
-    height: 35px;
-  }
 `;
+const WhereText = styled(Content)`
+  color: ${(props) => props.theme.colors.white60};
+`;
+const WhereInput = styled(CustomInput)`
+  background-color: ${(props) => props.theme.colors.black0};
+  width: 350px;
+  height: 35px;
+`;
+
 const WhatUseDiv = styled.div`
   width: 370px;
   height: 70px;
@@ -89,15 +78,16 @@ const WhatUseDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  .what {
-    color: ${(props) => props.theme.colors.white60};
-  }
-  .whatInput {
-    background-color: ${(props) => props.theme.colors.black0};
-    width: 350px;
-    height: 35px;
-  }
 `;
+const WhatText = styled(Content)`
+  color: ${(props) => props.theme.colors.white60};
+`;
+const WhatInput = styled(CustomInput)`
+  background-color: ${(props) => props.theme.colors.black0};
+  width: 350px;
+  height: 35px;
+`;
+
 const PayUseDiv = styled.div`
   width: 370px;
   height: 70px;
@@ -106,24 +96,25 @@ const PayUseDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  .pay {
-    color: ${(props) => props.theme.colors.white60};
-  }
-  .payInput {
-    background-color: ${(props) => props.theme.colors.black0};
-    width: 350px;
-    height: 35px;
-  }
 `;
+const PayText = styled(Content)`
+  color: ${(props) => props.theme.colors.white60};
+`;
+const PayInput = styled(CustomInput)`
+  background-color: ${(props) => props.theme.colors.black0};
+  width: 350px;
+  height: 35px;
+`;
+
 const ExperienceDiv = styled.div`
   width: 370px;
   height: 360px;
   margin: auto;
   margin-top: 15px;
   flex-direction: column;
-  .experience {
-    color: ${(props) => props.theme.colors.white60};
-  }
+`;
+const ExperienceText = styled(Content)`
+  color: ${(props) => props.theme.colors.white60};
 `;
 const ExperienceArea = styled.textarea`
   background-color: ${(props) => props.theme.colors.black0};
@@ -133,6 +124,20 @@ const ExperienceArea = styled.textarea`
   border-radius: 5px;
   padding: 10px;
   font-size: 15px;
+`;
+
+const RecordBtn = styled(CustomButton)`
+  width: 370px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  font-weight: 600;
+  background-color: ${(props) => props.theme.colors.brand0};
+  &:active {
+    background-color: ${(props) => props.theme.colors.brand50};
+  }
 `;
 
 export default MainDetailUi;

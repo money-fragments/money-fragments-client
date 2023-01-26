@@ -21,9 +21,7 @@ const Landing = () => {
           <br /> 돈 부스러기 입니다
         </H1>
       </LandingPageTitle>
-      <CustomButton className="landingLogin" onClick={goAuth}>
-        로그인
-      </CustomButton>
+      <LandingLogin onClick={goAuth}>로그인</LandingLogin>
     </LandingPageContainer>
   );
 };
@@ -40,20 +38,21 @@ const LandingPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-size: cover;
-  .landingLogin {
-    font-size: ${(props) => props.theme.fontSize.content};
-    width: 100px;
-    background-color: ${(props) => props.theme.colors.white0};
-    &:active {
-      border: 2px solid ${(props) => props.theme.colors.black100};
-    }
-  }
 `;
 
 const LandingPageTitle = styled.div`
   margin-top: 15%;
   margin-bottom: 3%;
   text-align: center;
+`;
+
+const LandingLogin = styled(CustomButton)`
+  font-size: ${(props) => props.theme.fontSize.content};
+  width: 100px;
+  background-color: ${(props) => props.theme.colors.white0};
+  &:active {
+    border: 2px solid ${(props) => props.theme.colors.black100};
+  }
 `;
 
 export default Landing;

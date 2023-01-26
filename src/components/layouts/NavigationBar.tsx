@@ -5,12 +5,12 @@ import { CustomButton } from 'components/common/CustomButton';
 const NavigationBar = () => {
   const navigate = useNavigate();
 
-  // 랜딩페이지 이동
+  // 메인 페이지 이동
   const goMain = () => {
     navigate('/main');
   };
 
-  // 로그인페이지 이동
+  // 로그인 페이지 이동
   const goAuth = () => {
     navigate('/Login');
   };
@@ -29,9 +29,7 @@ const NavigationBar = () => {
           <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>
         </NavigationBarMenuContainer>
       </NavigationBarLogoMenuContainer>
-      <CustomButton className="NavigationBtn" onClick={goAuth}>
-        로그인/회원가입
-      </CustomButton>
+      <NavigationBtn onClick={goAuth}>로그인/회원가입</NavigationBtn>
     </NavigationBarContainer>
   );
 };
@@ -43,14 +41,6 @@ const NavigationBarContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.white0};
-  .NavigationBtn {
-    font-size: ${(props) => props.theme.fontSize.content};
-    background-color: ${(props) => props.theme.colors.brand0};
-    width: 150px;
-    height: 40px;
-    margin-right: 20px;
-    font-weight: 500;
-  }
 `;
 
 const NavigationBarLogoMenuContainer = styled.div`
@@ -75,4 +65,12 @@ const NavigationBarMenuButton = styled.div`
   cursor: pointer;
 `;
 
+const NavigationBtn = styled(CustomButton)`
+  font-size: ${(props) => props.theme.fontSize.content};
+  background-color: ${(props) => props.theme.colors.brand0};
+  width: 150px;
+  height: 40px;
+  margin-right: 20px;
+  font-weight: 500;
+`;
 export default NavigationBar;

@@ -12,7 +12,9 @@ const ListUp = ({ setPlace, list }: IListUpProps) => {
     <>
       <ListContainer>
         <SearchPlace setPlace={setPlace} />
-        <PlaceItem list={list} />
+        <ListAlign>
+          <PlaceItem list={list} />
+        </ListAlign>
       </ListContainer>
     </>
   );
@@ -25,8 +27,14 @@ const ListContainer = styled.div`
   left: 10px;
   width: 300px;
   min-height: 600px;
-  max-height: fit-content;
+  max-height: 90%;
+  overflow: scroll;
   background-color: ${(props) => props.theme.colors.mono60};
   border-radius: 15px;
+`;
+const ListAlign = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export default ListUp;

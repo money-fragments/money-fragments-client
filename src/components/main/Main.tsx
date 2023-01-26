@@ -22,7 +22,6 @@ const Main = () => {
 
 const MainPageContainer = styled.main``;
 const MapContainer = styled.div`
-  /* width: 100%; */
   position: relative;
 `;
 

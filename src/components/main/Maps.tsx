@@ -72,6 +72,7 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
         }}
         level={3} // 지도의 확대 레벨
         onCreate={setMap}
+        zoomable={false}
       >
         {markers.map((marker) => (
           <MapMarker

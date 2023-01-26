@@ -118,7 +118,7 @@ const SignUpContainer = styled.div`
   width: 500px;
   height: 400px;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 130px;
   padding: 40px;
 `;
 const SignUpTextDiv = styled.div`

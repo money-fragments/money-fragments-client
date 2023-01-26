@@ -1,5 +1,4 @@
 import { H4 } from 'components/common';
-import { Fragment } from 'react';
 import styled from 'styled-components';
 import MonthlyExpense from './MonthlyExpense';
 

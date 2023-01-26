@@ -1,21 +1,19 @@
+import useUserExpenses from 'hooks/useUserExpenses';
 import styled from 'styled-components';
 import MonthlyExpenseBar from './MonthlyExpenseBar';
 
 const MonthlyExpense = () => {
+  const { monthlyExpense, maxExpense } = useUserExpenses('userid1');
   return (
     <MonthlyExpenseContainer>
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
-      <MonthlyExpenseBar />
+      {monthlyExpense.map((expense, index) => (
+        <MonthlyExpenseBar
+          key={index}
+          expense={expense}
+          month={index + 1}
+          maxExpense={maxExpense}
+        />
+      ))}
     </MonthlyExpenseContainer>
   );
 };

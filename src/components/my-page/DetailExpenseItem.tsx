@@ -1,20 +1,36 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const DetailExpenseItem = () => {
+interface DetailExpenseItemProps {
+  expense: Expense;
+}
+const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
+  const [expenseDate, setExpenseDate] = useState<string>('');
+  const [expensePrice, setExpensePrice] = useState<string>('');
+
+  useEffect(() => {
+    if (expense) {
+      const date = new Date(+expense.date);
+      setExpenseDate(
+        `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
+      );
+      setExpensePrice(
+        expense.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      );
+    }
+  }, [expense, expenseDate]);
+
   return (
     <DetailMonthlyExpenseTableBody>
-      <span>21. 08. 01.</span>
-      <span>카페</span>
-      <span>아메리카노</span>
-      <span>₩ 3,000</span>
-      <span>
-        오늘 아침에 카페에서 아메리카노를 마시고 왔다. 아메리카노는 맛있었다.
-        아메리카노는 맛있었다. 아메리카노는 맛있었다. 아메리카노는 맛있었다.
-        아메리카노는 맛있었다. 아메리카노는
-      </span>
+      <span>{expenseDate}</span>
+      <span>{expense.place}</span>
+      <span>{expense.product}</span>
+      <span>₩ {expensePrice}</span>
+      <span>{expense.experience}</span>
       <div>
+        {/* TODO: 커스텀 버튼으로 아래 버튼 변경 */}
         <button>지도에서 보기</button>
+        {/* TODO: 아이콘으로 아래 버튼들 변경 */}
         <button>e</button>
         <button>d</button>
       </div>

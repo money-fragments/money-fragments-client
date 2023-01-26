@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import DetailExpenseItem from './DetailExpenseItem';
 
 const DetailMonthlyExpense = () => {
-  const { data: expenses } = useUserExpenses('userid1');
+  // const { data: expenses } = useUserExpenses('userid1');
   return (
     <>
       <H4>월별 상세 지출 내역</H4>
@@ -19,9 +19,9 @@ const DetailMonthlyExpense = () => {
             <div> </div>
           </DetailMonthlyExpenseTableHeader>
           <DetailExpenseItemContainer>
-            {expenses?.map((expense) => (
+            {/* {expenses?.map((expense) => (
               <DetailExpenseItem key={expense.id} expense={expense} />
-            ))}
+            ))} */}
           </DetailExpenseItemContainer>
         </DetailMonthlyExpenseTable>
       </DetailMonthlyExpenseContainer>

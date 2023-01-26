@@ -1,10 +1,49 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Content, H6 } from 'components/common';
+import { auth } from '../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import AuthSocial from './AuthSocial';
 
-const SignUp = () => {
+const SignUp = (): JSX.Element => {
+  const [registering, setRegistering] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirm, setConfirm] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const onClickSignUpHandler = async () => {
+    if (password !== confirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      setError('비밀번호가 일치하지 않습니다');
+      return;
+    }
+    if (error !== '') setError('');
+
+    setRegistering(true);
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        alert('회원가입 축하합니다');
+        navigate('/login');
+      })
+      .catch((error) => {
+        if (error.code.includes('auth/weak-password')) {
+          setError('Password already in use');
+          alert('6글자 이상 비밀번호를 작성해주세요');
+        } else if (error.code.includes('auth/email-already')) {
+          setError('email-already');
+          alert('이메일이 이미 존재합니다');
+        } else {
+          setError('Unable to register.  Please try again later.');
+          alert('등록할 수 없습니다. 다시 시도해주세요');
+        }
+        setRegistering(false);
+      });
+  };
+
   return (
     <SignUpContainer>
       <SignUpTextDiv>
@@ -13,21 +52,46 @@ const SignUp = () => {
 
       <SignUpEmailPwContainer>
         <Content>E-mail</Content>
-        <SignUpEmailInput placeholder="이메일을 입력해주세요" />
+        <SignUpEmailInput
+          name="email"
+          type="email"
+          id="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="이메일을 입력해주세요"
+        />
         <SignUpPwTextDiv>
           <Content>Password</Content>
         </SignUpPwTextDiv>
-        <SignUpPwInput placeholder="비밀번호를 입력해주세요" />
+        <SignUpPwInput
+          name="password"
+          type="password"
+          id="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          placeholder="비밀번호를 입력해주세요"
+        />
         <SignUpPwConfirm>
           <Content>Password Confirm</Content>
         </SignUpPwConfirm>
-        <SignUpPwConfirmInput placeholder="비밀번호 한번 더 입력해주세요" />
+        <SignUpPwConfirmInput
+          autoComplete="new-password"
+          name="confirm"
+          type="password"
+          id="confirm"
+          value={confirm}
+          onChange={(event) => setConfirm(event.target.value)}
+          placeholder="비밀번호를 다시 입력해주세요"
+        />
       </SignUpEmailPwContainer>
 
       <SignUpBtnContainer>
-        <SignUpBtnDiv>
+        <SignUpBtn
+          disabled={registering}
+          onClick={() => onClickSignUpHandler()}
+        >
           <Content>SignUp</Content>
-        </SignUpBtnDiv>
+        </SignUpBtn>
       </SignUpBtnContainer>
 
       <SignUpOtherMethod>
@@ -36,13 +100,12 @@ const SignUp = () => {
         </SignUpOrLine>
 
         <SignUpGoogleGitContainer>
-          <FaGoogle size="48px" />
-          <FaGithub size="48px" />
+          <AuthSocial />
         </SignUpGoogleGitContainer>
       </SignUpOtherMethod>
 
       <SignUpCheckContainer>
-        <Link to={'/Login'}>
+        <Link to={'/login'}>
           <SignUpCheckSign>이미 회원이신가요?</SignUpCheckSign>
         </Link>
       </SignUpCheckContainer>
@@ -55,14 +118,14 @@ const SignUpContainer = styled.div`
   width: 500px;
   height: 400px;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 130px;
   padding: 40px;
 `;
 const SignUpTextDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
-const SignUpEmailPwContainer = styled.div`
+const SignUpEmailPwContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -105,7 +168,7 @@ const SignUpBtnContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const SignUpBtnDiv = styled.button`
+const SignUpBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;

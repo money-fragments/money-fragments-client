@@ -14,7 +14,6 @@ interface InputProps {
 
 export const CustomInput = styled.input<InputProps>`
   border: 0.5px solid gray;
-
   padding: 0px 10px;
   background: ${(props) =>
     props.backgroundColor

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styled from 'styled-components';
 import landingpage from '../assets/landingpage.png'
 import { H1 } from 'components/common';
@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
 
 const Landing = () => {
-
   const navigate = useNavigate();
 
-  // 로그인페이지 이동
   const goAuth = () => {
     navigate('/Login')
 }
@@ -26,8 +24,6 @@ const Landing = () => {
     </LandingPageContainer>
   );
 };
-
-export default Landing;
 
 const LandingPageContainer = styled.div`
   background-image: linear-gradient(
@@ -48,3 +44,5 @@ const LandingPageTitle = styled.div`
   margin-bottom: 3%;
   text-align: center;
 `
+
+export default Landing;

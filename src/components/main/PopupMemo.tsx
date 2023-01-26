@@ -6,9 +6,9 @@ import { Content } from 'components/common';
 
 interface IPopupMemoProps {
   setIsPopupMemoOpen: Dispatch<SetStateAction<boolean>>;
+  content: undefined | string;
 }
-// 지도에 마커가 추가되며 해당 팝업이 표시됨
-const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
+const PopUpMemo = ({ setIsPopupMemoOpen, content }: IPopupMemoProps) => {
   const handleClosePopup = (event: React.MouseEvent<SVGElement>) => {
     event.stopPropagation();
     setIsPopupMemoOpen(false);
@@ -26,7 +26,7 @@ const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
           {/* 어디서 */}
           <WhereBox>
             <ExpenseWhere>어디서 사용하셨나요?</ExpenseWhere>
-            <input className="input-where" type="text" />
+            <input className="input-where" type="text" placeholder={content} />
           </WhereBox>
           {/* 무엇을 */}
           <WhatBox>
@@ -36,7 +36,7 @@ const PopUpMemo = ({ setIsPopupMemoOpen }: IPopupMemoProps) => {
           {/* 얼마를 */}
           <HowMuchBox>
             <ExpenseHowMuch>얼마를 지불하셨나요?</ExpenseHowMuch>
-            <input className="input-how" type="text" />
+            <input className="input-how" />
           </HowMuchBox>
           <BtnBox>
             <CustomBtn>
@@ -77,10 +77,14 @@ const ContentBox = styled.div`
   .input-what,
   .input-how {
     background-color: ${(props) => props.theme.colors.mono0};
+    padding-left: 8px;
     width: 188px;
     height: 35px;
     border-radius: 10px;
     border-style: none;
+    ::placeholder {
+      color: #eee;
+    }
   }
 `;
 // 코드가 반복되는디?
@@ -97,7 +101,6 @@ const ExpenseHowMuch = styled(Content)`
   color: ${(props) => props.theme.colors.white100};
 `;
 const WhereBox = styled.div`
-  /* margin-top: 41px; */
   margin-left: 31px;
 `;
 

@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getUserExpense } from 'utils/api';
+import { getSelectedYearUserExpense } from 'utils/api';
 
-const useUserExpenses = (userId: string) => {
+const useUserExpenses = (userId: string, year: string) => {
   const [monthlyExpense, setMonthlyExpense] = useState<number[]>([]);
   const [maxExpense, setMaxExpense] = useState<number>(0);
 
-  const { data, isError, error, isLoading } = useQuery<Expense[], Error>(
-    ['userExpenses'],
-    () => getUserExpense(userId)
-  );
+  const { data, isError, error, isLoading, refetch } = useQuery<
+    Expense[],
+    Error
+  >(['userExpenses'], () => getSelectedYearUserExpense(userId, year));
 
   useEffect(() => {
-    const monthlyExpense: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const monthlyExpense: number[] = Array.from({ length: 12 }, () => 0);
+
     if (data) {
       data.forEach((expense) => {
         const expenseDate = new Date(+expense.date);
@@ -23,6 +24,10 @@ const useUserExpenses = (userId: string) => {
     }
     setMaxExpense(Math.max(...monthlyExpense));
   }, [data]);
+
+  useEffect(() => {
+    refetch();
+  }, [year, refetch]);
 
   return { data, isError, error, isLoading, monthlyExpense, maxExpense };
 };

@@ -2,8 +2,15 @@ import useUserExpenses from 'hooks/useUserExpenses';
 import styled from 'styled-components';
 import MonthlyExpenseBar from './MonthlyExpenseBar';
 
-const MonthlyExpense = () => {
-  const { monthlyExpense, maxExpense } = useUserExpenses('userid1');
+interface MonthlyExpenseProps {
+  selectedYear: string;
+}
+
+const MonthlyExpense = ({ selectedYear }: MonthlyExpenseProps) => {
+  const { monthlyExpense, maxExpense } = useUserExpenses(
+    'userid1',
+    selectedYear
+  );
   return (
     <MonthlyExpenseContainer>
       {monthlyExpense.map((expense, index) => (
@@ -22,8 +29,18 @@ const MonthlyExpenseContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+
+  box-sizing: border-box;
+  width: 100%;
   height: 260px;
+
+  background-color: ${({ theme }) => theme.colors.white100};
+  border-radius: 5px;
+  box-shadow: 4px 3px 8px 1px #aba4e942;
+  &:hover {
+    box-shadow: 4px 3px 8px 1px #aba4e984;
+  }
+
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 

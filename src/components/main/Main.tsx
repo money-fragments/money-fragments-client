@@ -23,7 +23,9 @@ const Main = () => {
 
 const MainPageContainer = styled.main``;
 const MapContainer = styled.div`
-  position: relative;
+  position: fixed;
+  height: calc(100vh - 60px);
+  width: 100%;
 `;
 
 export default Main;

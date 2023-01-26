@@ -2,8 +2,15 @@ import useUserExpenses from 'hooks/useUserExpenses';
 import styled from 'styled-components';
 import MonthlyExpenseBar from './MonthlyExpenseBar';
 
-const MonthlyExpense = () => {
-  const { monthlyExpense, maxExpense } = useUserExpenses('userid1');
+interface MonthlyExpenseProps {
+  selectedYear: string;
+}
+
+const MonthlyExpense = ({ selectedYear }: MonthlyExpenseProps) => {
+  const { monthlyExpense, maxExpense } = useUserExpenses(
+    'userid1',
+    selectedYear
+  );
   return (
     <MonthlyExpenseContainer>
       {monthlyExpense.map((expense, index) => (

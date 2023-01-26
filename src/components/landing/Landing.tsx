@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import landingpage from '../assets/landingpage.png';
+import landingPage from '../assets/landingpage.png';
 
 import { H1, H3 } from 'components/common';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +47,7 @@ const LandingBackground = styled.div`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-image: url(${landingpage});
+  background-image: url(${landingPage});
   background-size: cover;
   opacity: 0.3;
 `;

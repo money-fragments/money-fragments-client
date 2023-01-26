@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { Content } from 'components/common';
+import { customAlert } from 'utils';
 
 interface AuthRouteProps {
   children: ReactNode;
@@ -17,7 +18,7 @@ const AuthRoute = ({ children }: AuthRouteProps): JSX.Element => {
       if (user) {
         setLoading(false);
       } else {
-        alert('로그아웃 되셨습니다. 접속 시 로그인을 해주세요');
+        customAlert('허가되지 않은 접근입니다. 로그인 페이지로 이동합니다.');
         navigate('/login');
       }
     });

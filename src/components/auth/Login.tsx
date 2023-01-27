@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { Content, H6 } from 'components/common';
+import { Content, H5 } from 'components/common';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import AuthSocial from './AuthSocial';
@@ -14,7 +14,8 @@ const Login = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  const onClickLoginHandler = async () => {
+  const onClickLoginHandler = async (e: FormEvent) => {
+    e.preventDefault();
     if (error !== '') setError('');
 
     setAuthenticating(true);
@@ -32,40 +33,51 @@ const Login = (): JSX.Element => {
   return (
     <LoginContainer>
       <LoginTextDiv>
-        <H6>로그인</H6>
+        <H5>로그인</H5>
       </LoginTextDiv>
-
-      <LoginEmailPwContainer>
-        <Content>E-mail</Content>
-        <LoginEmailInput
-          name="email"
-          type="email"
-          id="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="이메일을 입력해주세요"
-        />
-        <LoginPwTextDiv>
-          <Content>Password</Content>
-        </LoginPwTextDiv>
-        <LoginPwInput
-          name="password"
-          type="password"
-          id="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="비밀번호를 입력해주세요"
-        />
-      </LoginEmailPwContainer>
-
-      <LoginBtnContainer>
-        <LoginBtn
-          disabled={authenticating}
-          onClick={() => onClickLoginHandler()}
-        >
-          <Content>Login</Content>
-        </LoginBtn>
-      </LoginBtnContainer>
+      <form>
+        <LoginEmailPwContainer>
+          <Content>E-mail</Content>
+          <LoginEmailInput
+            name="email"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="이메일을 입력해주세요"
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                onClickLoginHandler(e);
+              }
+            }}
+          />
+          <LoginPwTextDiv>
+            <Content>Password</Content>
+          </LoginPwTextDiv>
+          <LoginPwInput
+            name="password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="비밀번호를 입력해주세요"
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                onClickLoginHandler(e);
+              }
+            }}
+          />
+        </LoginEmailPwContainer>
+        <LoginBtnContainer>
+          <LoginBtn
+            type="submit"
+            disabled={authenticating}
+            onClick={(e) => onClickLoginHandler(e)}
+          >
+            <Content>Login</Content>
+          </LoginBtn>
+        </LoginBtnContainer>
+      </form>
 
       <LoginOtherMethod>
         <LoginOrLine>
@@ -93,15 +105,18 @@ const Login = (): JSX.Element => {
 const LoginContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white60};
   width: 500px;
-  height: 400px;
-  margin: 0 auto;
-  margin-top: 130px;
+  height: 460px;
+  margin: 23vh auto;
   padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 `;
+
 const LoginTextDiv = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 const LoginEmailPwContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,6 +125,7 @@ const LoginEmailPwContainer = styled.div`
   margin: 0 auto;
   margin-top: 30px;
 `;
+
 const LoginEmailInput = styled.input`
   height: 30px;
   margin-top: 10px;
@@ -118,9 +134,11 @@ const LoginEmailInput = styled.input`
   border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
+
 const LoginPwTextDiv = styled.div`
   margin-top: 10px;
 `;
+
 const LoginPwInput = styled.input`
   height: 30px;
   margin-top: 10px;
@@ -129,11 +147,13 @@ const LoginPwInput = styled.input`
   border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
+
 const LoginBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const LoginBtn = styled.button`
   display: flex;
   justify-content: center;
@@ -141,19 +161,26 @@ const LoginBtn = styled.button`
   height: 30px;
   width: 80px;
   background-color: ${(props) => props.theme.colors.white0};
-  border: 2px solid ${(props) => props.theme.colors.white0};
+  border: none;
   border-radius: 15px;
+  margin-top: 20px;
+  transition: 0.1s;
   &:active {
     background-color: ${(props) => props.theme.colors.black0};
   }
+  &:hover {
+    cursor: pointer;
+    outline: ${(props) => props.theme.colors.brandRed} solid 2px;
+  }
 `;
+
 const LoginOtherMethod = styled.div``;
+
 const LoginOrLine = styled.div`
   display: flex;
   flex-basis: 100%;
   align-items: center;
-  margin: 5px 0;
-  margin-top: 25px;
+  margin: 25px 25px;
   ::before {
     content: '';
     flex-grow: 1;
@@ -173,10 +200,13 @@ const LoginOrLine = styled.div`
     margin: 0px 8px;
   }
 `;
+
 const LoginGoogleGitContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 80px;
+  margin-bottom: 30px;
 `;
 
 const LoginCheckContainer = styled.span`
@@ -196,6 +226,7 @@ const LoginCheckContainer = styled.span`
     }
   }
 `;
+
 const PwForgotContainer = styled.span`
   display: flex;
   justify-content: center;
@@ -213,6 +244,7 @@ const PwForgotContainer = styled.span`
     }
   }
 `;
+
 const LoginCheckSignDiv = styled.div``;
 
 export default Login;

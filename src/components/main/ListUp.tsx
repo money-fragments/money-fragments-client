@@ -17,7 +17,9 @@ const ListUp = ({
   return (
     <>
       <ListContainer>
-        <SearchPlace setPlace={setPlace} />
+        <div>
+          <SearchPlace setPlace={setPlace} />
+        </div>
         <ListAlign>
           <PlaceItem
             list={list}
@@ -35,16 +37,17 @@ const ListContainer = styled.div`
   z-index: 3;
   top: 30px;
   left: 30px;
-  width: 300px;
+  width: 380px;
   height: 100%;
   max-height: 600px;
   overflow-y: scroll;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
 `;
+
 const ListAlign = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-left: 15px;
 `;
 export default ListUp;

@@ -14,6 +14,7 @@ interface IMapsProps {
   searchPlace: string;
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
+  clickedItem: IMarkers | undefined;
 }
 export interface IMarkers {
   position: { lat: number; lng: number };
@@ -21,7 +22,12 @@ export interface IMarkers {
   address?: string;
 }
 
-const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
+const Maps = ({
+  searchPlace,
+  setMarkers,
+  markers,
+  clickedItem,
+}: IMapsProps) => {
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
@@ -53,6 +59,7 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         setMarkers(newMarkers);
+
         map.setBounds(bounds);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert('검색 결과가 존재하지 않습니다.');
@@ -63,6 +70,10 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
       }
     });
   }, [searchPlace]);
+
+  // const handlePopupItem = ()=>{
+  //   setMarkers((prev)=>prev.map)
+  // }
 
   return (
     <>
@@ -78,21 +89,23 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
         onCreate={setMap}
       >
         <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
-
         {markers.map((marker) => (
           <MapMarker
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
             onClick={() => {
               setInfo(marker);
+              console.log('마커', marker);
+              console.log('인포', info);
               setIsPopupMemoOpen(false);
             }}
+            onMouseOver={() => setIsInfoWindowOpen(true)}
             infoWindowOptions={{ zIndex: 0 }}
           >
-            {info && info.content === marker.content && (
+            {clickedItem?.content === marker.content && info && (
               <>
                 <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
-                  <InfoContent>{info.content}</InfoContent>
+                  <InfoContent>{marker?.content}</InfoContent>
                 </InfoWindow>
                 <CustomOverlayMap
                   position={marker.position}

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
 import { getAuth } from 'firebase/auth';
+import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const NavigationBar = () => {
           onClick={goMain}
         />
         <NavigationBarMenuContainer>
-          <NavigationBarMenuButton>Nav1</NavigationBarMenuButton>
+          <Link to="/Calendar">
+            <NavigationBarMenuButton>Calendar</NavigationBarMenuButton>
+          </Link>
           <NavigationBarMenuButton>Nav2</NavigationBarMenuButton>
           <NavigationBarMenuButton>Nav3</NavigationBarMenuButton>
           <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>

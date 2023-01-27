@@ -2,25 +2,16 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
 import { getAuth } from 'firebase/auth';
+import { customConfirm } from 'utils';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const auth = getAuth();
-  const Logout = () => {
-    auth
-      .signOut()
-      .then(() => navigate('/Login'))
-      .catch(() => alert('error'));
-  };
-
-  // 메인 페이지 이동
-  const goMain = () => {
-    navigate('/main');
-  };
-
-  // 로그인 페이지 이동
-  const goAuth = () => {
-    navigate('/Login');
+  const handleLogoutClick = () => {
+    customConfirm('로그아웃 하시겠습니까?', '로그아웃하기', '로그아웃', () => {
+      navigate('/');
+      auth.signOut().catch(() => alert('error'));
+    });
   };
 
   return (
@@ -28,19 +19,37 @@ const NavigationBar = () => {
       <NavigationBarLogoMenuContainer>
         <NavigationBarLogo
           src={require('../assets/logo.png')}
-          onClick={goMain}
+          onClick={() => {
+            navigate('/main');
+          }}
         />
         <NavigationBarMenuContainer>
-          <NavigationBarMenuButton>Nav1</NavigationBarMenuButton>
-          <NavigationBarMenuButton>Nav2</NavigationBarMenuButton>
-          <NavigationBarMenuButton>Nav3</NavigationBarMenuButton>
-          <NavigationBarMenuButton>Nav4</NavigationBarMenuButton>
+          <NavigationBarMenuButton
+            onClick={() => {
+              navigate('/main');
+            }}
+          >
+            소비지도
+          </NavigationBarMenuButton>
+          <NavigationBarMenuButton
+            onClick={() => {
+              navigate('/my-page');
+            }}
+          >
+            소비 발자국
+          </NavigationBarMenuButton>
         </NavigationBarMenuContainer>
       </NavigationBarLogoMenuContainer>
-      {auth.currentUser ? (
-        <NavigationBtn onClick={() => Logout()}>로그아웃</NavigationBtn>
-      ) : (
-        <NavigationBtn onClick={goAuth}>로그인/회원가입</NavigationBtn>
+      {auth.currentUser && (
+        <NavigationBtn
+          width="100px"
+          height="40px"
+          fontSize="h6"
+          backgroundColor="brand0"
+          onClick={() => handleLogoutClick()}
+        >
+          로그아웃
+        </NavigationBtn>
       )}
     </NavigationBarContainer>
   );
@@ -52,7 +61,7 @@ const NavigationBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.white0};
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 
 const NavigationBarLogoMenuContainer = styled.div`
@@ -78,15 +87,6 @@ const NavigationBarMenuButton = styled.div`
 `;
 
 const NavigationBtn = styled(CustomButton)`
-  font-size: ${(props) => props.theme.fontSize.content};
-  background-color: ${(props) => props.theme.colors.brand0};
-  width: 150px;
-  height: 40px;
-  margin-right: 20px;
-  font-weight: 500;
-  &:active {
-    background-color: ${(props) => props.theme.colors.brand50};
-    color: ${(props) => props.theme.colors.white30};
-  }
+  margin-right: 30px;
 `;
 export default NavigationBar;

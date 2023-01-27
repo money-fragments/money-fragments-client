@@ -9,6 +9,7 @@ import {
 import { MapProps } from 'react-kakao-maps-sdk';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import MainDetailUi from './MainDetailUi';
 import PopUpMemo from './PopupMemo';
 
 interface IMapsProps {
@@ -22,6 +23,7 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
+  const [isDetailUiOpen, setIsDetailUiOpen] = useState(false);
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const [state, setState] = useState<MapProps>({
@@ -82,7 +84,6 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
         style={{
           width: '100%',
           height: '100vh',
-          zIndex: '2',
         }}
         level={3}
         onCreate={setMap}
@@ -113,9 +114,24 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
                   {isPopupMemoOpen && (
                     <PopUpMemo
                       setIsPopupMemoOpen={setIsPopupMemoOpen}
+                      setIsDetailUiOpen={setIsDetailUiOpen}
                       content={marker.content}
                       info={info}
                     ></PopUpMemo>
+                  )}
+                </CustomOverlayMap>
+                <CustomOverlayMap
+                  position={marker.position}
+                  clickable={true}
+                  zIndex={2}
+                  yAnchor={1}
+                >
+                  {isDetailUiOpen && (
+                    <MainDetailUi
+                      setIsDetailUiOpen={setIsDetailUiOpen}
+                      content={marker.content}
+                      info={info}
+                    />
                   )}
                 </CustomOverlayMap>
               </>

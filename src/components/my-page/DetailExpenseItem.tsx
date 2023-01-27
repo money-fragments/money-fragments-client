@@ -2,12 +2,14 @@ import { CustomButton } from 'components/common/CustomButton';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 interface DetailExpenseItemProps {
   expense: Expense;
 }
 
 const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
+  const navigate = useNavigate();
   const [expenseDate, setExpenseDate] = useState<string>('');
   const [expensePrice, setExpensePrice] = useState<string>('');
 
@@ -23,6 +25,10 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
     }
   }, [expense, expenseDate]);
 
+  const handleOnClick = () => {
+    navigate('/main', { state: { expense } });
+  };
+
   return (
     <DetailMonthlyExpenseTableBody>
       <span>{expenseDate}</span>
@@ -31,7 +37,14 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
       <span>₩ {expensePrice}</span>
       <span>{expense.experience}</span>
       <ButtonContainer>
-        <CustomButton width="110px">지도에서 보기</CustomButton>
+        <CustomButton
+          onClick={() => {
+            handleOnClick();
+          }}
+          width="110px"
+        >
+          지도에서 보기
+        </CustomButton>
         <FaRegEdit />
         <FaRegTrashAlt />
       </ButtonContainer>

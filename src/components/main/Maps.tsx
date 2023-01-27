@@ -7,6 +7,7 @@ import {
   ZoomControl,
 } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import PopUpMemo from './PopupMemo';
 
@@ -15,13 +16,9 @@ interface IMapsProps {
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
 }
-export interface IMarkers {
-  position: { lat: number; lng: number };
-  content?: string;
-  address?: string;
-}
 
 const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
+  const location = useLocation();
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
@@ -31,6 +28,19 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     isPanto: true,
   });
+
+  useEffect(() => {
+    if (location.state?.expense.placeInfo) {
+      setMarkers([location.state.expense.placeInfo]);
+      setState({
+        center: {
+          lat: location.state.expense.placeInfo.position.lat,
+          lng: location.state.expense.placeInfo.position.lng,
+        },
+        isPanto: true,
+      });
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!map) return;

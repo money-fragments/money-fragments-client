@@ -5,7 +5,6 @@ import { Content } from 'components/common';
 import { useMutation } from '@tanstack/react-query';
 import { postExpense } from 'utils/api';
 import { customAlert } from 'utils';
-import { IMarkers } from './Maps';
 import { getAuth } from 'firebase/auth';
 
 interface IPopupMemoProps {
@@ -47,8 +46,7 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
       price: expenseHowMuch!,
       experience: '',
       userId: auth.currentUser.uid,
-      lat: info.position.lat,
-      lng: info.position.lng,
+      placeInfo: info,
     };
     mutate(formData);
 

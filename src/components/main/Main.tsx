@@ -4,6 +4,7 @@ import Header from './Header';
 import ListUp from './ListUp';
 import Maps from './Maps';
 import { IMarkers } from './Maps';
+import MainDetailUi from './MainDetailUi';
 
 const Main = () => {
   const [isOpenListUp, setIsOpenListUp] = useState(false);
@@ -16,6 +17,7 @@ const Main = () => {
         <Maps searchPlace={place} setMarkers={setMarkers} markers={markers} />
         {isOpenListUp && <ListUp setPlace={setPlace} list={markers} />}
       </MapContainer>
+      <MainDetailUi />
     </MainPageContainer>
   );
 };

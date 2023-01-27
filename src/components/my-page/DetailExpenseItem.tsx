@@ -1,9 +1,12 @@
+import { CustomButton } from 'components/common/CustomButton';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 
 interface DetailExpenseItemProps {
   expense: Expense;
 }
+
 const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   const [expenseDate, setExpenseDate] = useState<string>('');
   const [expensePrice, setExpensePrice] = useState<string>('');
@@ -27,13 +30,11 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
       <span>{expense.product}</span>
       <span>₩ {expensePrice}</span>
       <span>{expense.experience}</span>
-      <div>
-        {/* TODO: 커스텀 버튼으로 아래 버튼 변경 */}
-        <button>지도에서 보기</button>
-        {/* TODO: 아이콘으로 아래 버튼들 변경 */}
-        <button>e</button>
-        <button>d</button>
-      </div>
+      <ButtonContainer>
+        <CustomButton width="110px">지도에서 보기</CustomButton>
+        <FaRegEdit />
+        <FaRegTrashAlt />
+      </ButtonContainer>
     </DetailMonthlyExpenseTableBody>
   );
 };
@@ -65,6 +66,12 @@ const DetailMonthlyExpenseTableBody = styled.div`
     display: flex;
     justify-content: space-around;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 export default DetailExpenseItem;

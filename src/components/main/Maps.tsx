@@ -7,7 +7,9 @@ import {
   ZoomControl,
 } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import MainDetailUi from './MainDetailUi';
 import PopUpMemo from './PopupMemo';
 
 interface IMapsProps {
@@ -15,22 +17,32 @@ interface IMapsProps {
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
 }
-export interface IMarkers {
-  position: { lat: number; lng: number };
-  content?: string;
-  address?: string;
-}
 
 const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
+  const location = useLocation();
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
+  const [isDetailUiOpen, setIsDetailUiOpen] = useState(false);
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const [state, setState] = useState<MapProps>({
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     isPanto: true,
   });
+
+  useEffect(() => {
+    if (location.state?.expense.placeInfo) {
+      setMarkers([location.state.expense.placeInfo]);
+      setState({
+        center: {
+          lat: location.state.expense.placeInfo.position.lat,
+          lng: location.state.expense.placeInfo.position.lng,
+        },
+        isPanto: true,
+      });
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!map) return;
@@ -72,7 +84,6 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
         style={{
           width: '100%',
           height: '100vh',
-          zIndex: '2',
         }}
         level={3}
         onCreate={setMap}
@@ -103,8 +114,24 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
                   {isPopupMemoOpen && (
                     <PopUpMemo
                       setIsPopupMemoOpen={setIsPopupMemoOpen}
+                      setIsDetailUiOpen={setIsDetailUiOpen}
                       content={marker.content}
+                      info={info}
                     ></PopUpMemo>
+                  )}
+                </CustomOverlayMap>
+                <CustomOverlayMap
+                  position={marker.position}
+                  clickable={true}
+                  zIndex={2}
+                  yAnchor={1}
+                >
+                  {isDetailUiOpen && (
+                    <MainDetailUi
+                      setIsDetailUiOpen={setIsDetailUiOpen}
+                      content={marker.content}
+                      info={info}
+                    />
                   )}
                 </CustomOverlayMap>
               </>

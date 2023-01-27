@@ -1,5 +1,5 @@
 import { H4 } from 'components/common';
-import useUserExpenses from 'hooks/useUserExpenses';
+import { getAuth } from 'firebase/auth';
 import useUserExpenseYears from 'hooks/useUserExpensesYears';
 import styled from 'styled-components';
 import MonthlyExpense from './MonthlyExpense';
@@ -10,7 +10,10 @@ interface ExpenseReportProps {
 }
 
 const ExpenseReport = ({ year, setYear }: ExpenseReportProps) => {
-  const { years, isLoading, isError, error } = useUserExpenseYears('userid1');
+  const auth = getAuth();
+  const { years, isLoading, isError, error } = useUserExpenseYears(
+    auth.currentUser?.uid!
+  );
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error?.message}</div>;
 

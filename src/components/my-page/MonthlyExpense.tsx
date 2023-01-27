@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import useUserExpenses from 'hooks/useUserExpenses';
 import styled from 'styled-components';
 import MonthlyExpenseBar from './MonthlyExpenseBar';
@@ -7,8 +8,9 @@ interface MonthlyExpenseProps {
 }
 
 const MonthlyExpense = ({ selectedYear }: MonthlyExpenseProps) => {
+  const auth = getAuth();
   const { monthlyExpense, maxExpense } = useUserExpenses(
-    'userid1',
+    auth.currentUser?.uid!,
     selectedYear
   );
   return (

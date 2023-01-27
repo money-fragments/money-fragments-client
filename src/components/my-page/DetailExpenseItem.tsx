@@ -2,6 +2,7 @@ import { CustomButton } from 'components/common/CustomButton';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { CustomModal } from 'components/common/CustomModal';
 
 interface DetailExpenseItemProps {
@@ -9,6 +10,7 @@ interface DetailExpenseItemProps {
 }
 
 const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
+  const navigate = useNavigate();
   const [expenseDate, setExpenseDate] = useState<string>('');
   const [expensePrice, setExpensePrice] = useState<string>('');
   const [isModalActive, setIsModalActive] = useState(false);
@@ -28,6 +30,10 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
     }
   }, [expense, expenseDate]);
 
+  const handleOnClick = () => {
+    navigate('/main', { state: { expense } });
+  };
+
   return (
     <DetailMonthlyExpenseTableBody>
       <span>{expenseDate}</span>
@@ -36,7 +42,14 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
       <span>₩ {expensePrice}</span>
       <span>{expense.experience}</span>
       <ButtonContainer>
-        <CustomButton width="110px">지도에서 보기</CustomButton>
+        <CustomButton
+          onClick={() => {
+            handleOnClick();
+          }}
+          width="110px"
+        >
+          지도에서 보기
+        </CustomButton>
         <button style={{ border: 'none' }} onClick={onClickToggleModal}>
           <FaRegEdit />
         </button>

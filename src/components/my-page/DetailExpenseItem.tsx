@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 import { CustomModal } from 'components/common/CustomModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface DetailExpenseItemProps {
   expense: Expense;
@@ -16,19 +15,6 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   const onClickToggleModal = useCallback(() => {
     setIsModalActive(!isModalActive);
   }, [isModalActive]);
-
-  const onEditPost = async (id: any) => {
-    if (
-      !expense.place &&
-      !expense.product &&
-      !expensePrice &&
-      !expense.experience
-    ) {
-      alert('수정한 부분이 없습니다.');
-      return;
-    }
-    let editingObj = {};
-  };
 
   useEffect(() => {
     if (expense) {
@@ -70,7 +56,7 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
                   어떻게 : <input />
                 </form>
                 <div style={{ display: 'flex' }}>
-                  <button onClick={onEditPost}>수정완료</button>
+                  <button>수정완료</button>
                   <button>수정취소</button>
                 </div>
               </div>

@@ -21,7 +21,7 @@ export const CustomButton = styled.button<ButtonProps>`
 
   color: ${(props) =>
     props.color
-      ? (props) => props.color
+      ? (props: any) => props.theme.colors[props.color]
       : (props) => props.theme.colors.black100};
 
   width: ${(props) => props.width || '60px'};
@@ -29,21 +29,18 @@ export const CustomButton = styled.button<ButtonProps>`
 
   font-size: ${(props) =>
     props.fontSize
-      ? (props: any) => props.theme.fontSize[`${props.fontSize}`]
+      ? (props: any) => props.theme.fontSize[props.fontSize]
       : (props) => props.theme.fontSize.content};
 
   border-radius: ${(props) => props.borderRadius || '15px'};
+  transition: all 0.2s ease-in-out;
 
   &:disabled {
-    color: ${(props) =>
-      props.color
-        ? (props) => props.color
-        : (props) => props.theme.colors.black100};
-    background: ${(props) =>
-      props.backgroundColor
-        ? (props: any) => props.theme.colors[`${props.backgroundColor}`]
-        : (props) => props.theme.colors.white30};
-    cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.02;
   }
 `;

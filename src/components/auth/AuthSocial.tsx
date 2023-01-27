@@ -64,6 +64,9 @@ const GoogleBtn = styled.button`
   &:active {
     background-color: ${(props) => props.theme.colors.white0};
   }
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const GithubBtn = styled.button`
   background-color: ${(props) => props.theme.colors.white60};
@@ -72,6 +75,9 @@ const GithubBtn = styled.button`
   border: 1px solid ${(props) => props.theme.colors.white60};
   &:active {
     background-color: ${(props) => props.theme.colors.white0};
+  }
+  &:hover {
+    cursor: pointer;
   }
 `;
 

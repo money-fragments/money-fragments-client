@@ -47,9 +47,10 @@ const GlobalStyle = createGlobalStyle`
 
   @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
 
-  * {
+  body {
     font-family: Pretendard;
   }
+
   a{
   text-decoration: none;
   color: inherit;

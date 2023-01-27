@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { Content, H6 } from 'components/common';
+import { Content, H5 } from 'components/common';
 import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AuthSocial from './AuthSocial';
@@ -15,7 +15,8 @@ const SignUp = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  const onClickSignUpHandler = async () => {
+  const onClickSignUpHandler = async (e: FormEvent) => {
+    e.preventDefault();
     if (password !== confirm) {
       alert('비밀번호가 일치하지 않습니다.');
       setError('비밀번호가 일치하지 않습니다');
@@ -47,63 +48,76 @@ const SignUp = (): JSX.Element => {
   return (
     <SignUpContainer>
       <SignUpTextDiv>
-        <H6>회원가입</H6>
+        <H5>회원가입</H5>
       </SignUpTextDiv>
-
-      <SignUpEmailPwContainer>
-        <Content>E-mail</Content>
-        <SignUpEmailInput
-          name="email"
-          type="email"
-          id="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="이메일을 입력해주세요"
-        />
-        <SignUpPwTextDiv>
-          <Content>Password</Content>
-        </SignUpPwTextDiv>
-        <SignUpPwInput
-          name="password"
-          type="password"
-          id="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="비밀번호를 입력해주세요"
-        />
-        <SignUpPwConfirm>
-          <Content>Password Confirm</Content>
-        </SignUpPwConfirm>
-        <SignUpPwConfirmInput
-          autoComplete="new-password"
-          name="confirm"
-          type="password"
-          id="confirm"
-          value={confirm}
-          onChange={(event) => setConfirm(event.target.value)}
-          placeholder="비밀번호를 다시 입력해주세요"
-        />
-      </SignUpEmailPwContainer>
-
-      <SignUpBtnContainer>
-        <SignUpBtn
-          disabled={registering}
-          onClick={() => onClickSignUpHandler()}
-        >
-          <Content>SignUp</Content>
-        </SignUpBtn>
-      </SignUpBtnContainer>
-
+      <form>
+        <SignUpEmailPwContainer>
+          <Content>E-mail</Content>
+          <SignUpEmailInput
+            name="email"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="이메일을 입력해주세요"
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                onClickSignUpHandler(e);
+              }
+            }}
+          />
+          <SignUpPwTextDiv>
+            <Content>Password</Content>
+          </SignUpPwTextDiv>
+          <SignUpPwInput
+            name="password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="비밀번호를 입력해주세요"
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                onClickSignUpHandler(e);
+              }
+            }}
+          />
+          <SignUpPwConfirm>
+            <Content>Password Confirm</Content>
+          </SignUpPwConfirm>
+          <SignUpPwConfirmInput
+            autoComplete="new-password"
+            name="confirm"
+            type="password"
+            id="confirm"
+            value={confirm}
+            onChange={(event) => setConfirm(event.target.value)}
+            placeholder="비밀번호를 다시 입력해주세요"
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                onClickSignUpHandler(e);
+              }
+            }}
+          />
+        </SignUpEmailPwContainer>
+        <SignUpBtnContainer>
+          <SignUpBtn
+            type="submit"
+            disabled={registering}
+            onClick={(e) => onClickSignUpHandler(e)}
+          >
+            <Content>SignUp</Content>
+          </SignUpBtn>
+        </SignUpBtnContainer>
+      </form>
       <SignUpOtherMethod>
         <SignUpOrLine>
           <Content>OR</Content>
         </SignUpOrLine>
-
         <SignUpGoogleGitContainer>
           <AuthSocial />
         </SignUpGoogleGitContainer>
       </SignUpOtherMethod>
-
       <SignUpCheckContainer>
         <Link to={'/login'}>
           <SignUpCheckSign>이미 회원이신가요?</SignUpCheckSign>
@@ -115,11 +129,13 @@ const SignUp = (): JSX.Element => {
 
 const SignUpContainer = styled.div`
   background-color: #e9ecef;
+  background-color: ${(props) => props.theme.colors.white60};
   width: 500px;
-  height: 400px;
-  margin: 0 auto;
-  margin-top: 130px;
+  height: 480px;
+  margin: 23vh auto;
   padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 `;
 const SignUpTextDiv = styled.div`
   display: flex;
@@ -167,6 +183,7 @@ const SignUpBtnContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 `;
 const SignUpBtn = styled.button`
   display: flex;
@@ -178,8 +195,13 @@ const SignUpBtn = styled.button`
   background-color: ${(props) => props.theme.colors.white0};
   border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 15px;
+  transition: 0.1s;
   &:active {
     background-color: ${(props) => props.theme.colors.black0};
+  }
+  &:hover {
+    cursor: pointer;
+    outline: ${(props) => props.theme.colors.brandRed} solid 2px;
   }
 `;
 const SignUpOtherMethod = styled.div``;
@@ -187,8 +209,7 @@ const SignUpOrLine = styled.div`
   display: flex;
   flex-basis: 100%;
   align-items: center;
-  margin: 5px 0;
-  margin-top: 10px;
+  margin: 25px 25px;
   ::before {
     content: '';
     flex-grow: 1;
@@ -210,8 +231,10 @@ const SignUpOrLine = styled.div`
 `;
 const SignUpGoogleGitContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 80px;
+  margin-bottom: 20px;
 `;
 
 const SignUpCheckContainer = styled.div`

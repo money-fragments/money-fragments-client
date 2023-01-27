@@ -3,6 +3,7 @@ interface IMarkers {
   content?: string;
   address?: string;
 }
+
 interface Expense {
   id: string;
   date: number;

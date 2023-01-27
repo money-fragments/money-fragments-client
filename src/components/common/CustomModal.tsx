@@ -23,7 +23,6 @@ export const CustomModal = ({
   return (
     <>
       <Container width={width} height={height}>
-        <ExitWrapper onClick={disableModal}>Close</ExitWrapper>
         <Wrapper>{element}</Wrapper>
       </Container>
       <Canvas onClick={disableModal} />
@@ -52,26 +51,8 @@ const Container = styled.div<{ width: string; height: string }>`
   border: 0.3px solid black;
 `;
 
-const ExitWrapper = styled.button`
-  position: absolute;
-  bottom: 20px;
-  font-size: 24px;
-  width: 120px;
-  border-radius: 5px;
-  background-color: white;
-  transition: color 0.2s, border-color 1s, transform 0.5s;
-  cursor: pointer;
-  &:hover {
-    border-color: black;
-    color: black;
-    box-shadow: 0 0.5em 0.5em -0.4em;
-    transform: translateY(-5px);
-    cursor: pointer;
-  }
-`;
-
 const Canvas = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;

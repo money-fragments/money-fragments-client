@@ -16,6 +16,7 @@ interface IMapsProps {
   searchPlace: string;
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
+  clickedItem: IMarkers | undefined;
 }
 
 const Maps = ({

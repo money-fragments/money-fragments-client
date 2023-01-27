@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { CustomModal } from 'components/common/CustomModal';
+import useDeleteExpenseMutation from 'hooks/useDeleteExpenseMutation';
+import { customConfirm } from 'utils';
+import ExpenseEditModal from './ExpenseEditModal';
 
 interface DetailExpenseItemProps {
   expense: Expense;
@@ -17,6 +20,19 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   const onClickToggleModal = useCallback(() => {
     setIsModalActive(!isModalActive);
   }, [isModalActive]);
+
+  const { mutate } = useDeleteExpenseMutation();
+
+  const handleDelete = () => {
+    customConfirm(
+      '정말 삭제하시겠습니까?',
+      '삭제를 원하시면 확인을 눌러주세요',
+      '확인',
+      () => {
+        mutate(expense.id);
+      }
+    );
+  };
 
   useEffect(() => {
     if (expense) {
@@ -35,53 +51,47 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   };
 
   return (
-    <DetailMonthlyExpenseTableBody>
-      <span>{expenseDate}</span>
-      <span>{expense.place}</span>
-      <span>{expense.product}</span>
-      <span>₩ {expensePrice}</span>
-      <span>{expense.experience}</span>
-      <ButtonContainer>
-        <CustomButton
-          onClick={() => {
-            handleOnClick();
-          }}
-          width="110px"
-        >
-          지도에서 보기
-        </CustomButton>
-        <button style={{ border: 'none' }} onClick={onClickToggleModal}>
-          <FaRegEdit />
-        </button>
-        {isModalActive ? (
-          <CustomModal
-            modal={isModalActive}
-            setModal={setIsModalActive}
-            width="300"
-            height="300"
-            element={
-              <div>
-                <form>
-                  언제 : <input />
-                  어디서 : <input />
-                  무엇을 : <input />
-                  얼마 : <input />
-                  어떻게 : <input />
-                </form>
-                <div style={{ display: 'flex' }}>
-                  <button>수정완료</button>
-                  <button>수정취소</button>
-                </div>
-              </div>
-            }
-          />
-        ) : (
-          ''
-        )}
+    <>
+      {isModalActive && (
+        <CustomModal
+          modal={isModalActive}
+          setModal={setIsModalActive}
+          width="300"
+          height="300"
+          // @ts-ignore
+          element={
+            <ExpenseEditModal
+              setIsModalActive={setIsModalActive}
+              expense={expense}
+            />
+          }
+        />
+      )}
+      <DetailMonthlyExpenseTableBody>
+        <span>{expenseDate}</span>
+        <span>{expense.place}</span>
+        <span>{expense.product}</span>
+        <span>₩ {expensePrice}</span>
+        <span>{expense.experience}</span>
+        <ButtonContainer>
+          <CustomButton
+            onClick={() => {
+              handleOnClick();
+            }}
+            width="110px"
+          >
+            지도에서 보기
+          </CustomButton>
+          <FaRegEdit onClick={onClickToggleModal} />
 
-        <FaRegTrashAlt />
-      </ButtonContainer>
-    </DetailMonthlyExpenseTableBody>
+          <FaRegTrashAlt
+            onClick={() => {
+              handleDelete();
+            }}
+          />
+        </ButtonContainer>
+      </DetailMonthlyExpenseTableBody>
+    </>
   );
 };
 

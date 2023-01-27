@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Content, H5 } from 'components/common';
@@ -6,6 +6,7 @@ import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AuthSocial from './AuthSocial';
 import { useForm } from 'react-hook-form';
+import { customAlert } from 'utils';
 
 interface IAuthForm {
   email: string;
@@ -24,12 +25,12 @@ const SignUp = (): JSX.Element => {
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm<IAuthForm>({ mode: 'onBlur' });
 
-  const onClickSignUpHandler = async (e: FormEvent) => {
-    e.preventDefault();
-    if (password !== confirm) {
+  const onSubmit = async (data: IAuthForm) => {
+    if (data.password !== data.confirm) {
       alert('비밀번호가 일치하지 않습니다.');
       setError('비밀번호가 일치하지 않습니다');
       return;
@@ -37,22 +38,24 @@ const SignUp = (): JSX.Element => {
     if (error !== '') setError('');
 
     setRegistering(true);
-    await createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
-        alert('회원가입 축하합니다');
-        navigate('/login');
+        customAlert('회원가입을 축하합니다!');
+        navigate('/main');
       })
       .catch((error) => {
         if (error.code.includes('auth/weak-password')) {
-          setError('Password already in use');
-        } else if (error.code.includes('auth/email-already')) {
-          setError('email-already');
+          setRegistering(false);
+          alert('비밀번호는 6자 이상이어야 합니다.');
+          return;
+        }
+        if (error.code.includes('auth/email-already-in-use')) {
+          setRegistering(false);
           alert('이메일이 이미 존재합니다');
-        } else {
-          setError('Unable to register.  Please try again later.');
-          alert('등록할 수 없습니다. 다시 시도해주세요');
+          return;
         }
         setRegistering(false);
+        alert('등록할 수 없습니다. 다시 시도해주세요');
       });
   };
 
@@ -61,7 +64,7 @@ const SignUp = (): JSX.Element => {
       <SignUpTextDiv>
         <H5>회원가입</H5>
       </SignUpTextDiv>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <SignUpEmailPwContainer>
           <Content>E-mail</Content>
           <SignUpEmailInput
@@ -80,7 +83,7 @@ const SignUp = (): JSX.Element => {
             placeholder="이메일을 입력해주세요"
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                onClickSignUpHandler(e);
+                handleSubmit(onSubmit);
               }
             }}
             autoFocus
@@ -114,7 +117,7 @@ const SignUp = (): JSX.Element => {
             placeholder="비밀번호를 입력해주세요"
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                onClickSignUpHandler(e);
+                handleSubmit(onSubmit);
               }
             }}
           />
@@ -141,18 +144,14 @@ const SignUp = (): JSX.Element => {
             placeholder="비밀번호를 다시 입력해주세요"
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                onClickSignUpHandler(e);
+                handleSubmit(onSubmit);
               }
             }}
           />
           <AuthWarn>{errors?.confirm?.message}</AuthWarn>
         </SignUpEmailPwContainer>
         <SignUpBtnContainer>
-          <SignUpBtn
-            type="submit"
-            disabled={registering}
-            onClick={(e) => onClickSignUpHandler(e)}
-          >
+          <SignUpBtn type="submit" disabled={registering}>
             <Content>SignUp</Content>
           </SignUpBtn>
         </SignUpBtnContainer>

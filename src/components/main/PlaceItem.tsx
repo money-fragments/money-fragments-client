@@ -1,5 +1,5 @@
 import { Content, H6 } from 'components/common';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { IMarkers } from './Maps';
 
@@ -10,8 +10,6 @@ interface IPlaceItemProps {
 }
 
 const PlaceItem = ({ list, clickedItem, setClickedItem }: IPlaceItemProps) => {
-  // const [mouseoverItem, setMouseOverItem] = useState<IMarkers>();
-
   useEffect(() => {
     if (clickedItem) {
     }

@@ -71,10 +71,6 @@ const Maps = ({
     });
   }, [searchPlace]);
 
-  // const handlePopupItem = ()=>{
-  //   setMarkers((prev)=>prev.map)
-  // }
-
   return (
     <>
       <Map
@@ -95,8 +91,6 @@ const Maps = ({
             position={marker.position}
             onClick={() => {
               setInfo(marker);
-              console.log('마커', marker);
-              console.log('인포', info);
               setIsPopupMemoOpen(false);
             }}
             onMouseOver={() => setIsInfoWindowOpen(true)}

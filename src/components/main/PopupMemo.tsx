@@ -23,17 +23,14 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content }: IPopupMemoProps) => {
         />
 
         <ContentBox>
-          {/* 어디서 */}
           <WhereBox>
             <ExpenseWhere>어디서 사용하셨나요?</ExpenseWhere>
             <input className="input-where" type="text" placeholder={content} />
           </WhereBox>
-          {/* 무엇을 */}
           <WhatBox>
             <ExpenseWhat>어떤 걸 구매하셨나요?</ExpenseWhat>
             <input className="input-what" type="text" />
           </WhatBox>
-          {/* 얼마를 */}
           <HowMuchBox>
             <ExpenseHowMuch>얼마를 지불하셨나요?</ExpenseHowMuch>
             <input className="input-how" />
@@ -87,7 +84,6 @@ const ContentBox = styled.div`
     }
   }
 `;
-// 코드가 반복되는디?
 const ExpenseWhere = styled(Content)`
   display: block;
   color: ${(props) => props.theme.colors.white100};

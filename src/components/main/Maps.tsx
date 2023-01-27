@@ -116,14 +116,14 @@ const Maps = ({
                   position={marker.position}
                   clickable={true}
                   zIndex={1}
-                  yAnchor={1}
+                  yAnchor={1.5}
                 >
                   {isPopupMemoOpen && (
                     <PopUpMemo
                       setIsPopupMemoOpen={setIsPopupMemoOpen}
                       setIsDetailUiOpen={setIsDetailUiOpen}
                       content={marker.content}
-                      info={info}
+                      info={marker}
                     ></PopUpMemo>
                   )}
                 </CustomOverlayMap>
@@ -137,7 +137,7 @@ const Maps = ({
                     <MainDetailUi
                       setIsDetailUiOpen={setIsDetailUiOpen}
                       content={marker.content}
-                      info={info}
+                      info={marker}
                     />
                   )}
                 </CustomOverlayMap>

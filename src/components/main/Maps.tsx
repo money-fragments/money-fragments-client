@@ -30,7 +30,7 @@ const Maps = ({
   const [map, setMap] = useState<kakao.maps.Map>();
   const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
   const [isDetailUiOpen, setIsDetailUiOpen] = useState(false);
-  const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
+  const [_, setIsInfoWindowOpen] = useState(false);
 
   const [state, setState] = useState<MapProps>({
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },

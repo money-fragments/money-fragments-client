@@ -5,6 +5,11 @@ import { Content, H5 } from 'components/common';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import AuthSocial from './AuthSocial';
+import { useForm } from 'react-hook-form';
+
+interface IAuthForm {
+  email: string;
+}
 
 const Login = (): JSX.Element => {
   const [authenticating, setAuthenticating] = useState<boolean>(false);
@@ -13,6 +18,11 @@ const Login = (): JSX.Element => {
   const [error, setError] = useState<string>('');
 
   const navigate = useNavigate();
+
+  const {
+    register,
+    formState: { errors },
+  } = useForm<IAuthForm>({ mode: 'onBlur' });
 
   const onClickLoginHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,6 +49,13 @@ const Login = (): JSX.Element => {
         <LoginEmailPwContainer>
           <Content>E-mail</Content>
           <LoginEmailInput
+            {...register('email', {
+              required: '이메일을 올바르게 입력해주세요.',
+              pattern: {
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: '이메일을 올바르게 입력해주세요.',
+              },
+            })}
             name="email"
             type="email"
             id="email"
@@ -51,13 +68,14 @@ const Login = (): JSX.Element => {
               }
             }}
           />
+          <AuthWarn>{errors?.email?.message}</AuthWarn>
           <LoginPwTextDiv>
             <Content>Password</Content>
           </LoginPwTextDiv>
           <LoginPwInput
-            name="password"
             type="password"
             id="password"
+            name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             placeholder="비밀번호를 입력해주세요"
@@ -135,6 +153,12 @@ const LoginEmailInput = styled.input`
   border-radius: 5px;
 `;
 
+const AuthWarn = styled.p`
+  color: ${(props) => props.theme.colors.brandRed};
+  font-size: 13px;
+  font-weight: 700px;
+`;
+
 const LoginPwTextDiv = styled.div`
   margin-top: 10px;
 `;
@@ -159,7 +183,7 @@ const LoginBtn = styled.button`
   justify-content: center;
   align-items: center;
   height: 30px;
-  width: 80px;
+  width: 90px;
   background-color: ${(props) => props.theme.colors.white0};
   border: none;
   border-radius: 15px;
@@ -218,7 +242,7 @@ const LoginCheckContainer = styled.span`
     display: flex;
     align-items: center;
     padding: 5px;
-    transition: color 0.2s ease-in;
+    transition: color 0.03s ease-in;
   }
   &:hover {
     a {

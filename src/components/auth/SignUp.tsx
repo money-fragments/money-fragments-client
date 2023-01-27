@@ -5,6 +5,13 @@ import { Content, H5 } from 'components/common';
 import { auth } from '../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import AuthSocial from './AuthSocial';
+import { useForm } from 'react-hook-form';
+
+interface IAuthForm {
+  email: string;
+  password: string;
+  confirm: string;
+}
 
 const SignUp = (): JSX.Element => {
   const [registering, setRegistering] = useState<boolean>(false);
@@ -14,6 +21,11 @@ const SignUp = (): JSX.Element => {
   const [error, setError] = useState<string>('');
 
   const navigate = useNavigate();
+
+  const {
+    register,
+    formState: { errors },
+  } = useForm<IAuthForm>({ mode: 'onBlur' });
 
   const onClickSignUpHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -26,14 +38,13 @@ const SignUp = (): JSX.Element => {
 
     setRegistering(true);
     await createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
+      .then(() => {
         alert('회원가입 축하합니다');
         navigate('/login');
       })
       .catch((error) => {
         if (error.code.includes('auth/weak-password')) {
           setError('Password already in use');
-          alert('6글자 이상 비밀번호를 작성해주세요');
         } else if (error.code.includes('auth/email-already')) {
           setError('email-already');
           alert('이메일이 이미 존재합니다');
@@ -54,6 +65,13 @@ const SignUp = (): JSX.Element => {
         <SignUpEmailPwContainer>
           <Content>E-mail</Content>
           <SignUpEmailInput
+            {...register('email', {
+              required: '이메일을 올바르게 입력해주세요.',
+              pattern: {
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: '이메일을 올바르게 입력해주세요.',
+              },
+            })}
             name="email"
             type="email"
             id="email"
@@ -65,11 +83,29 @@ const SignUp = (): JSX.Element => {
                 onClickSignUpHandler(e);
               }
             }}
+            autoFocus
           />
+          <AuthWarn>{errors?.email?.message}</AuthWarn>
+
           <SignUpPwTextDiv>
             <Content>Password</Content>
           </SignUpPwTextDiv>
+
           <SignUpPwInput
+            {...register('password', {
+              required: '비밀번호를 입력해주세요.',
+              minLength: {
+                value: 8,
+                message:
+                  '비밀번호는 숫자, 영문 대문자, 소문자, 특수문자를 포함한 8글자 이상이어야 합니다.',
+              },
+              pattern: {
+                value:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                message:
+                  '비밀번호는 숫자, 영문 대문자, 소문자, 특수문자를 포함한 8글자 이상이어야 합니다.',
+              },
+            })}
             name="password"
             type="password"
             id="password"
@@ -82,10 +118,20 @@ const SignUp = (): JSX.Element => {
               }
             }}
           />
+          <AuthWarn>{errors?.password?.message}</AuthWarn>
+
           <SignUpPwConfirm>
             <Content>Password Confirm</Content>
           </SignUpPwConfirm>
           <SignUpPwConfirmInput
+            {...register('confirm', {
+              required: '비밀번호를 입력해주세요.',
+              minLength: {
+                value: 8,
+                message:
+                  '비밀번호는 숫자, 영문 대문자, 소문자, 특수문자를 포함한 8글자 이상이어야 합니다.',
+              },
+            })}
             autoComplete="new-password"
             name="confirm"
             type="password"
@@ -99,6 +145,7 @@ const SignUp = (): JSX.Element => {
               }
             }}
           />
+          <AuthWarn>{errors?.confirm?.message}</AuthWarn>
         </SignUpEmailPwContainer>
         <SignUpBtnContainer>
           <SignUpBtn
@@ -145,24 +192,31 @@ const SignUpEmailPwContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 300px;
-  height: 200px;
+  height: 250px;
   margin: 0 auto;
   margin-top: 20px;
 `;
 const SignUpEmailInput = styled.input`
   height: 30px;
-  margin-top: 10px;
+  margin-top: 7px;
   padding-left: 5px;
   background-color: ${(props) => props.theme.colors.white0};
   border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 5px;
 `;
+
+const AuthWarn = styled.p`
+  color: ${(props) => props.theme.colors.brandRed};
+  font-size: 13px;
+  font-weight: 700px;
+`;
+
 const SignUpPwTextDiv = styled.div`
   margin-top: 10px;
 `;
 const SignUpPwInput = styled.input`
   height: 30px;
-  margin-top: 10px;
+  margin-top: 7px;
   padding-left: 5px;
   background-color: ${(props) => props.theme.colors.white0};
   border: 2px solid ${(props) => props.theme.colors.white0};
@@ -173,7 +227,7 @@ const SignUpPwConfirm = styled.div`
 `;
 const SignUpPwConfirmInput = styled.input`
   height: 30px;
-  margin-top: 10px;
+  margin-top: 7px;
   padding-left: 5px;
   background-color: ${(props) => props.theme.colors.white0};
   border: 2px solid ${(props) => props.theme.colors.white0};
@@ -189,13 +243,12 @@ const SignUpBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
   height: 30px;
-  width: 80px;
+  width: 90px;
   background-color: ${(props) => props.theme.colors.white0};
   border: 2px solid ${(props) => props.theme.colors.white0};
   border-radius: 15px;
-  transition: 0.1s;
+  transition: 0.03s;
   &:active {
     background-color: ${(props) => props.theme.colors.black0};
   }
@@ -217,7 +270,7 @@ const SignUpOrLine = styled.div`
     height: 1px;
     font-size: 0px;
     line-height: 0px;
-    margin: 0px 8px;
+    margin: 0px 5px;
   }
   ::after {
     content: '';
@@ -226,7 +279,7 @@ const SignUpOrLine = styled.div`
     height: 1px;
     font-size: 0px;
     line-height: 0px;
-    margin: 0px 8px;
+    margin: 0px 5px;
   }
 `;
 const SignUpGoogleGitContainer = styled.div`
@@ -234,7 +287,6 @@ const SignUpGoogleGitContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 80px;
-  margin-bottom: 20px;
 `;
 
 const SignUpCheckContainer = styled.div`
@@ -244,7 +296,7 @@ const SignUpCheckContainer = styled.div`
   a {
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
     transition: color 0.2s ease-in;
   }
   &:hover {

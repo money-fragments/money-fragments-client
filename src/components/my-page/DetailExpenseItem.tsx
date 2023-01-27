@@ -1,8 +1,9 @@
 import { CustomButton } from 'components/common/CustomButton';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { CustomModal } from 'components/common/CustomModal';
 
 interface DetailExpenseItemProps {
   expense: Expense;
@@ -12,6 +13,10 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   const navigate = useNavigate();
   const [expenseDate, setExpenseDate] = useState<string>('');
   const [expensePrice, setExpensePrice] = useState<string>('');
+  const [isModalActive, setIsModalActive] = useState(false);
+  const onClickToggleModal = useCallback(() => {
+    setIsModalActive(!isModalActive);
+  }, [isModalActive]);
 
   useEffect(() => {
     if (expense) {
@@ -45,7 +50,35 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
         >
           지도에서 보기
         </CustomButton>
-        <FaRegEdit />
+        <button style={{ border: 'none' }} onClick={onClickToggleModal}>
+          <FaRegEdit />
+        </button>
+        {isModalActive ? (
+          <CustomModal
+            modal={isModalActive}
+            setModal={setIsModalActive}
+            width="300"
+            height="300"
+            element={
+              <div>
+                <form>
+                  언제 : <input />
+                  어디서 : <input />
+                  무엇을 : <input />
+                  얼마 : <input />
+                  어떻게 : <input />
+                </form>
+                <div style={{ display: 'flex' }}>
+                  <button>수정완료</button>
+                  <button>수정취소</button>
+                </div>
+              </div>
+            }
+          />
+        ) : (
+          ''
+        )}
+
         <FaRegTrashAlt />
       </ButtonContainer>
     </DetailMonthlyExpenseTableBody>

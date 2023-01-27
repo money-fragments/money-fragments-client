@@ -60,7 +60,6 @@ const ExitWrapper = styled.button`
   border-radius: 5px;
   background-color: white;
   transition: color 0.2s, border-color 1s, transform 0.5s;
-
   cursor: pointer;
   &:hover {
     border-color: black;

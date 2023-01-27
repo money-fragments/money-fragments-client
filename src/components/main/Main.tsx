@@ -10,14 +10,27 @@ const Main = () => {
   const [isOpenListUp, setIsOpenListUp] = useState(false);
   const [place, setPlace] = useState('');
   const [markers, setMarkers] = useState<IMarkers[]>([]);
+  const [clickedItem, setClickedItem] = useState<IMarkers>();
+
   return (
     <MainPageContainer>
       <Header setIsOpenListUp={setIsOpenListUp} isOpenListUp={isOpenListUp} />
       <MapContainer>
-        <Maps searchPlace={place} setMarkers={setMarkers} markers={markers} />
-        {isOpenListUp && <ListUp setPlace={setPlace} list={markers} />}
+        <Maps
+          searchPlace={place}
+          setMarkers={setMarkers}
+          markers={markers}
+          clickedItem={clickedItem}
+        />
+        {isOpenListUp && (
+          <ListUp
+            setPlace={setPlace}
+            list={markers}
+            clickedItem={clickedItem}
+            setClickedItem={setClickedItem}
+          />
+        )}
       </MapContainer>
-      <MainDetailUi />
     </MainPageContainer>
   );
 };

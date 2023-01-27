@@ -1,10 +1,14 @@
 import { DetailMonthlyExpense, ExpenseReport } from 'components/my-page';
+import { getAuth } from 'firebase/auth';
 import useUserExpenseYears from 'hooks/useUserExpensesYears';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 const MyPage = () => {
-  const { isError, isLoading, error } = useUserExpenseYears('userid1');
+  const auth = getAuth();
+  const { isError, isLoading, error } = useUserExpenseYears(
+    auth.currentUser?.uid!
+  );
 
   const [year, setYear] = useState<string>(new Date().getFullYear().toString());
 

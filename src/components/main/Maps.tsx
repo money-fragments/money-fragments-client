@@ -104,6 +104,7 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
                     <PopUpMemo
                       setIsPopupMemoOpen={setIsPopupMemoOpen}
                       content={marker.content}
+                      info={info}
                     ></PopUpMemo>
                   )}
                 </CustomOverlayMap>

@@ -4,12 +4,25 @@ import landingPage from '../assets/landingpage.png';
 import { H1, H3 } from 'components/common';
 import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
+import { useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
 
 const Landing = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
 
-  const goAuth = () => {
-    navigate('/Login');
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigate('/Main');
+    }
+  }, []);
+
+  const handleOnButtonClick = () => {
+    if (auth.currentUser) {
+      navigate('/Main');
+    } else {
+      navigate('/Login');
+    }
   };
 
   return (
@@ -19,7 +32,7 @@ const Landing = () => {
         <H3>소비의 자취를 남기고 싶으신가요?</H3>
         <H3>돈부스러기와 함께 소비발자국을 남겨보세요!</H3>
         <LandingLogin
-          onClick={goAuth}
+          onClick={handleOnButtonClick}
           fontSize="h5"
           width="120px"
           height="40px"

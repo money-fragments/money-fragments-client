@@ -8,4 +8,6 @@ interface Expense {
   price: number;
   experience: string;
   userId: string;
+  lat: number;
+  lng: number;
 }

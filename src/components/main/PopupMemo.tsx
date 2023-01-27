@@ -5,12 +5,17 @@ import { Content } from 'components/common';
 import { useMutation } from '@tanstack/react-query';
 import { postExpense } from 'utils/api';
 import { customAlert } from 'utils';
+import { IMarkers } from './Maps';
+import { getAuth } from 'firebase/auth';
 
 interface IPopupMemoProps {
   setIsPopupMemoOpen: Dispatch<SetStateAction<boolean>>;
   content: undefined | string;
+  info: IMarkers;
 }
-const PopUpMemo = ({ setIsPopupMemoOpen, content }: IPopupMemoProps) => {
+const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
+  const auth = getAuth();
+
   const handleClosePopup = (event: React.MouseEvent<SVGElement>) => {
     event.stopPropagation();
     setIsPopupMemoOpen(false);
@@ -28,8 +33,10 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content }: IPopupMemoProps) => {
       console.log(error);
     },
   });
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (auth.currentUser === null) return;
     const formData: Expense = {
       id: crypto.randomUUID(),
       date: Date.now(),
@@ -39,7 +46,9 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content }: IPopupMemoProps) => {
       product: expenseWhat,
       price: expenseHowMuch!,
       experience: '',
-      userId: 'userid1',
+      userId: auth.currentUser.uid,
+      lat: info.position.lat,
+      lng: info.position.lng,
     };
     mutate(formData);
 

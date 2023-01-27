@@ -1,7 +1,6 @@
 import { Content, H6 } from 'components/common';
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { IMarkers } from './Maps';
 
 interface IPlaceItemProps {
   list: IMarkers[];

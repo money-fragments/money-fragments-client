@@ -3,13 +3,15 @@ import useUserExpenses from 'hooks/useUserExpenses';
 import styled from 'styled-components';
 import DetailExpenseItem from './DetailExpenseItem';
 import { useState, useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
 
 interface DetailMonthlyExpenseProps {
   year: string;
 }
 
 const DetailMonthlyExpense = ({ year }: DetailMonthlyExpenseProps) => {
-  const { data: expenses } = useUserExpenses('userid1', year);
+  const auth = getAuth();
+  const { data: expenses } = useUserExpenses(auth.currentUser?.uid!, year);
   const [selectedMonth, setSelectedMonth] = useState<string>(
     new Date(Date.now()).getMonth().toString()
   );

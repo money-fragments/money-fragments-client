@@ -5,7 +5,6 @@ import {
   MapMarker,
   CustomOverlayMap,
   ZoomControl,
-  MapTypeControl,
 } from 'react-kakao-maps-sdk';
 import { MapProps } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
@@ -36,11 +35,11 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
   useEffect(() => {
     if (!map) return;
     const ps = new kakao.maps.services.Places();
-    ps.keywordSearch(searchPlace, (data, status, _pagination) => {
+    ps.keywordSearch(searchPlace, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const bounds = new kakao.maps.LatLngBounds();
         let newMarkers = [];
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           // @ts-ignore
           newMarkers.push({
             position: {
@@ -68,19 +67,17 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
   return (
     <>
       <Map
-        // 지도를 표시할 Container
         center={state.center}
         isPanto={state.isPanto}
         style={{
-          // 지도의 크기
           width: '100%',
           height: '100vh',
+          zIndex: '2',
         }}
-        level={3} // 지도의 확대 레벨
+        level={3}
         onCreate={setMap}
       >
         <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
-        <MapTypeControl position={kakao.maps.ControlPosition.TOPRIGHT} />
 
         {markers.map((marker) => (
           <MapMarker
@@ -90,23 +87,27 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
               setInfo(marker);
               setIsPopupMemoOpen(false);
             }}
+            infoWindowOptions={{ zIndex: 0 }}
           >
             {info && info.content === marker.content && (
-              <CustomOverlayMap position={marker.position} clickable={true}>
-                <div>
-                  <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
-                    {info.content}📝
-                  </InfoWindow>
+              <>
+                <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
+                  <InfoContent>{info.content}</InfoContent>
+                </InfoWindow>
+                <CustomOverlayMap
+                  position={marker.position}
+                  clickable={true}
+                  zIndex={1}
+                  yAnchor={1}
+                >
                   {isPopupMemoOpen && (
                     <PopUpMemo
-                      // 여기 프롭으로 marker.content를 넘겨주면??
-                      // 그걸 어디서 사셨나요에 넣어주면??
                       setIsPopupMemoOpen={setIsPopupMemoOpen}
                       content={marker.content}
                     ></PopUpMemo>
                   )}
-                </div>
-              </CustomOverlayMap>
+                </CustomOverlayMap>
+              </>
             )}
           </MapMarker>
         ))}
@@ -115,7 +116,12 @@ const Maps = ({ searchPlace, setMarkers, markers }: IMapsProps) => {
   );
 };
 
-const InfoWindow = styled(Content)`
-  width: fit-content;
+const InfoWindow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const InfoContent = styled(Content)`
+  margin: 2px 0 2px 2px;
 `;
 export default Maps;

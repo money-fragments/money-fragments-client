@@ -2,18 +2,23 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { Content } from 'components/common';
-import { useMutation } from '@tanstack/react-query';
-import { postExpense } from 'utils/api';
-import { customAlert } from 'utils';
-import { IMarkers } from './Maps';
+
 import { getAuth } from 'firebase/auth';
+import usePostExpense from 'hooks/usePostExpense';
 
 interface IPopupMemoProps {
   setIsPopupMemoOpen: Dispatch<SetStateAction<boolean>>;
+  setIsDetailUiOpen: Dispatch<SetStateAction<boolean>>;
   content: undefined | string;
   info: IMarkers;
 }
-const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
+
+const PopUpMemo = ({
+  setIsPopupMemoOpen,
+  setIsDetailUiOpen,
+  content,
+  info,
+}: IPopupMemoProps) => {
   const auth = getAuth();
 
   const handleClosePopup = (event: React.MouseEvent<SVGElement>) => {
@@ -23,16 +28,9 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
 
   const [expenseWhere, setExpenseWhere] = React.useState<string>(content!);
   const [expenseWhat, setExpenseWhat] = React.useState<string>('');
-  const [expenseHowMuch, setExpenseHowMuch] = React.useState<number>();
+  const [expenseHowMuch, setExpenseHowMuch] = React.useState<number>(0);
 
-  const { mutate } = useMutation(postExpense, {
-    onSuccess: (data) => {
-      customAlert('지출이 등록되었습니다.');
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate } = usePostExpense();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,11 +42,10 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
       month: new Date().getMonth().toString(),
       place: expenseWhere,
       product: expenseWhat,
-      price: expenseHowMuch!,
+      price: expenseHowMuch,
       experience: '',
       userId: auth.currentUser.uid,
-      lat: info.position.lat,
-      lng: info.position.lng,
+      placeInfo: info,
     };
     mutate(formData);
 
@@ -57,6 +54,12 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
     setExpenseWhere('');
     setExpenseWhat('');
     setExpenseHowMuch(0);
+  };
+
+  const handleDetailClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setIsPopupMemoOpen(false);
+    setIsDetailUiOpen(true);
   };
   return (
     <>
@@ -103,7 +106,9 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
               className="input-how-much"
               value={expenseHowMuch}
               onChange={(e) => {
-                setExpenseHowMuch(Number(e.target.value));
+                if (!isNaN(Number(e.target.value))) {
+                  setExpenseHowMuch(Number(e.target.value));
+                }
               }}
               placeholder="예) 10000"
             />
@@ -112,7 +117,12 @@ const PopUpMemo = ({ setIsPopupMemoOpen, content, info }: IPopupMemoProps) => {
             <CustomBtn type="submit">
               <Content>기록하기</Content>
             </CustomBtn>
-            <CustomBtn>
+            <CustomBtn
+              type="button"
+              onClick={(event) => {
+                handleDetailClick(event);
+              }}
+            >
               <Content>자세히</Content>
             </CustomBtn>
           </BtnBox>

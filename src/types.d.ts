@@ -1,3 +1,8 @@
+interface IMarkers {
+  position: { lat: number; lng: number };
+  content?: string;
+  address?: string;
+}
 interface Expense {
   id: string;
   date: number;
@@ -8,6 +13,5 @@ interface Expense {
   price: number;
   experience: string;
   userId: string;
-  lat: number;
-  lng: number;
+  placeInfo: IMarkers;
 }

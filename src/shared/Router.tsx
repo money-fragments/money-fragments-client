@@ -7,9 +7,10 @@ import Main from 'components/main/Main';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
+import Calendar from 'components/calendar/Calendar';
 
-const Router = () =>{
-  return(
+const Router = () => {
+  return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -24,6 +25,7 @@ const Router = () =>{
               </AuthRoute>
             }
           />
+          <Route path="/Calendar" element={<AuthRoute><Calendar /></AuthRoute>} />
           <Route
             path="/my-page"
             element={
@@ -37,6 +39,6 @@ const Router = () =>{
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default Router;

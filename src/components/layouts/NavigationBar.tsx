@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CustomButton } from 'components/common/CustomButton';
 import { getAuth } from 'firebase/auth';
 import { customConfirm } from 'utils';
+import { Link } from 'react-router-dom';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -38,6 +39,9 @@ const NavigationBar = () => {
           >
             소비 발자국
           </NavigationBarMenuButton>
+          <Link to="/Calendar">
+            <NavigationBarMenuButton>소비 달력</NavigationBarMenuButton>
+          </Link>
         </NavigationBarMenuContainer>
       </NavigationBarLogoMenuContainer>
       {auth.currentUser && (

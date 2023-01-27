@@ -1,7 +1,9 @@
 import { CustomButton } from 'components/common/CustomButton';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
+import { CustomModal } from 'components/common/CustomModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface DetailExpenseItemProps {
   expense: Expense;
@@ -10,6 +12,23 @@ interface DetailExpenseItemProps {
 const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
   const [expenseDate, setExpenseDate] = useState<string>('');
   const [expensePrice, setExpensePrice] = useState<string>('');
+  const [isModalActive, setIsModalActive] = useState(false);
+  const onClickToggleModal = useCallback(() => {
+    setIsModalActive(!isModalActive);
+  }, [isModalActive]);
+
+  const onEditPost = async (id: any) => {
+    if (
+      !expense.place &&
+      !expense.product &&
+      !expensePrice &&
+      !expense.experience
+    ) {
+      alert('수정한 부분이 없습니다.');
+      return;
+    }
+    let editingObj = {};
+  };
 
   useEffect(() => {
     if (expense) {
@@ -32,7 +51,35 @@ const DetailExpenseItem = ({ expense }: DetailExpenseItemProps) => {
       <span>{expense.experience}</span>
       <ButtonContainer>
         <CustomButton width="110px">지도에서 보기</CustomButton>
-        <FaRegEdit />
+        <button style={{ border: 'none' }} onClick={onClickToggleModal}>
+          <FaRegEdit />
+        </button>
+        {isModalActive ? (
+          <CustomModal
+            modal={isModalActive}
+            setModal={setIsModalActive}
+            width="300"
+            height="300"
+            element={
+              <div>
+                <form>
+                  언제 : <input />
+                  어디서 : <input />
+                  무엇을 : <input />
+                  얼마 : <input />
+                  어떻게 : <input />
+                </form>
+                <div style={{ display: 'flex' }}>
+                  <button onClick={onEditPost}>수정완료</button>
+                  <button>수정취소</button>
+                </div>
+              </div>
+            }
+          />
+        ) : (
+          ''
+        )}
+
         <FaRegTrashAlt />
       </ButtonContainer>
     </DetailMonthlyExpenseTableBody>

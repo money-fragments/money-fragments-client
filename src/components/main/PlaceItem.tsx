@@ -1,20 +1,19 @@
 import { Content, H6 } from 'components/common';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IMarkers } from './Maps';
 
 interface IPlaceItemProps {
   list: IMarkers[];
-  // isMouseOver: boolean;
-  // setIsMouseOver: React.Dispatch<React.SetStateAction<(string | boolean)[]>>;
 }
 
 const PlaceItem = ({ list }: IPlaceItemProps) => {
-  // const [isMouseOver, setIsMouseOver] = useState(false);
+  const [mouseoverItem, setMouseOverItem] = useState<IMarkers[]>();
 
-  // const handleMouseOverItem = () => {
-
-  // };
+  const handleMouseOverItem = (item: any) => {
+    setMouseOverItem(item);
+    return console.log(mouseoverItem);
+  };
   return (
     <>
       {list.map((item) => (
@@ -23,7 +22,9 @@ const PlaceItem = ({ list }: IPlaceItemProps) => {
         >
           <ul>
             <li>
-              <ItemContent>{item.content}</ItemContent>
+              <ItemContent onMouseEnter={() => handleMouseOverItem(item)}>
+                {item.content}
+              </ItemContent>
             </li>
             <li>
               <ItemAddress>{item.address}</ItemAddress>

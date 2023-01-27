@@ -33,13 +33,12 @@ const ListUp = ({
 const ListContainer = styled.div`
   position: absolute;
   z-index: 3;
-  top: 60px;
-  left: 10px;
+  top: 30px;
+  left: 30px;
   width: 300px;
   height: 100%;
   max-height: 600px;
   overflow-y: scroll;
-
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
 `;

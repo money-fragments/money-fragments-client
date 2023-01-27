@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Header from './Header';
 import ListUp from './ListUp';
 import Maps from './Maps';
-
+import SearchIcon from './SearchIcon';
 const Main = () => {
   const [isOpenListUp, setIsOpenListUp] = useState(false);
   const [place, setPlace] = useState('');
@@ -12,7 +11,10 @@ const Main = () => {
 
   return (
     <MainPageContainer>
-      <Header setIsOpenListUp={setIsOpenListUp} isOpenListUp={isOpenListUp} />
+      <SearchIcon
+        setIsOpenListUp={setIsOpenListUp}
+        isOpenListUp={isOpenListUp}
+      />
       <MapContainer>
         <Maps
           searchPlace={place}

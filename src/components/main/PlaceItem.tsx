@@ -1,29 +1,33 @@
 import { Content, H6 } from 'components/common';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 interface IPlaceItemProps {
   list: IMarkers[];
+  clickedItem: IMarkers | undefined;
+  setClickedItem: React.Dispatch<React.SetStateAction<IMarkers | undefined>>;
 }
 
-const PlaceItem = ({ list }: IPlaceItemProps) => {
-  const [mouseoverItem, setMouseOverItem] = useState<IMarkers[]>();
+const PlaceItem = ({ list, clickedItem, setClickedItem }: IPlaceItemProps) => {
+  useEffect(() => {
+    if (clickedItem) {
+    }
+  }, [clickedItem]);
 
-  const handleMouseOverItem = (item: any) => {
-    setMouseOverItem(item);
-    return console.log(mouseoverItem);
+  const handleItemCliked = (item: any) => {
+    setClickedItem(item);
   };
+
   return (
     <>
       {list.map((item) => (
         <ListItem
           key={`item-${item.content}-${item.position.lat},${item.position.lng}`}
+          onClick={() => handleItemCliked(item)}
         >
           <ul>
             <li>
-              <ItemContent onMouseEnter={() => handleMouseOverItem(item)}>
-                {item.content}
-              </ItemContent>
+              <ItemContent>{item.content}</ItemContent>
             </li>
             <li>
               <ItemAddress>{item.address}</ItemAddress>

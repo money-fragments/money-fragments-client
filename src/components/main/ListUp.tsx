@@ -4,15 +4,26 @@ import PlaceItem from './PlaceItem';
 import SearchPlace from './SearchPlace';
 interface IListUpProps {
   setPlace: React.Dispatch<React.SetStateAction<string>>;
+  clickedItem: IMarkers | undefined;
+  setClickedItem: React.Dispatch<React.SetStateAction<IMarkers | undefined>>;
   list: IMarkers[];
 }
-const ListUp = ({ setPlace, list }: IListUpProps) => {
+const ListUp = ({
+  setPlace,
+  list,
+  clickedItem,
+  setClickedItem,
+}: IListUpProps) => {
   return (
     <>
       <ListContainer>
         <SearchPlace setPlace={setPlace} />
         <ListAlign>
-          <PlaceItem list={list} />
+          <PlaceItem
+            list={list}
+            clickedItem={clickedItem}
+            setClickedItem={setClickedItem}
+          />
         </ListAlign>
       </ListContainer>
     </>

@@ -74,7 +74,6 @@ const PopUpMemo = ({
             handleSubmit(e);
           }}
         >
-          {/* 어디서 */}
           <WhereBox>
             <ExpenseWhere>어디서 사용하셨나요?</ExpenseWhere>
             <input
@@ -86,7 +85,6 @@ const PopUpMemo = ({
               }}
             />
           </WhereBox>
-          {/* 무엇을 */}
           <WhatBox>
             <ExpenseWhat>어떤 걸 구매하셨나요?</ExpenseWhat>
             <input
@@ -99,7 +97,6 @@ const PopUpMemo = ({
               placeholder="예) 라면, 햄버거, 택시비"
             />
           </WhatBox>
-          {/* 얼마를 */}
           <HowMuchBox>
             <ExpenseHowMuch>얼마를 지불하셨나요?</ExpenseHowMuch>
             <input
@@ -167,7 +164,6 @@ const ContentBox = styled.form`
     }
   }
 `;
-// 코드가 반복되는디?
 const ExpenseWhere = styled(Content)`
   display: block;
   color: ${(props) => props.theme.colors.white100};

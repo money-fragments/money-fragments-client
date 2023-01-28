@@ -20,7 +20,7 @@ const SearchPlace = ({ setPlace }: ISearchPlaceProps) => {
     <>
       <PlaceForm className="inputForm" onSubmit={handlePlaceSubmit}>
         <PlaceInput
-          placeholder="간단한 장소, 지명을 입력해주세요. ex) 버거킹, 강남역"
+          placeholder="예) 버거킹, 강남역"
           onChange={onChangeInputText}
           value={inputText}
         />
@@ -35,6 +35,8 @@ const PlaceForm = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 10px;
+  margin: 0 auto;
 `;
 const PlaceInput = styled.input`
   width: 80%;

@@ -7,15 +7,15 @@ import { getAuth } from 'firebase/auth';
 import usePostExpense from 'hooks/usePostExpense';
 
 interface IPopupMemoProps {
-  setIsPopupMemoOpen: Dispatch<SetStateAction<boolean>>;
-  setIsDetailUiOpen: Dispatch<SetStateAction<boolean>>;
+  setIsShowMemo: Dispatch<SetStateAction<boolean>>;
+  setIsShowDetail: Dispatch<SetStateAction<boolean>>;
   content: undefined | string;
   info: IMarkers;
 }
 
 const PopUpMemo = ({
-  setIsPopupMemoOpen,
-  setIsDetailUiOpen,
+  setIsShowMemo,
+  setIsShowDetail,
   content,
   info,
 }: IPopupMemoProps) => {
@@ -23,7 +23,7 @@ const PopUpMemo = ({
 
   const handleClosePopup = (event: React.MouseEvent<SVGElement>) => {
     event.stopPropagation();
-    setIsPopupMemoOpen(false);
+    setIsShowMemo(false);
   };
 
   const [expenseWhere, setExpenseWhere] = React.useState<string>(content!);
@@ -49,7 +49,7 @@ const PopUpMemo = ({
     };
     mutate(formData);
 
-    setIsPopupMemoOpen(false);
+    setIsShowMemo(false);
 
     setExpenseWhere('');
     setExpenseWhat('');
@@ -58,9 +58,10 @@ const PopUpMemo = ({
 
   const handleDetailClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    setIsPopupMemoOpen(false);
-    setIsDetailUiOpen(true);
+    setIsShowMemo(false);
+    setIsShowDetail(true);
   };
+
   return (
     <>
       <MemoContainer>

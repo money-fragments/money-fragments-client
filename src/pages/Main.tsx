@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ListUp from './ListUp';
-import Maps from './Maps';
-import SearchIcon from './SearchIcon';
+import { ListUp } from 'components/main';
+import { Maps } from 'components/main';
+import { SearchIcon } from 'components/main';
 const Main = () => {
   const [isOpenListUp, setIsOpenListUp] = useState(false);
   const [place, setPlace] = useState('');
@@ -21,6 +21,7 @@ const Main = () => {
           setMarkers={setMarkers}
           markers={markers}
           clickedItem={clickedItem}
+          setClickedItem={setClickedItem}
         />
         {isOpenListUp && (
           <ListUp

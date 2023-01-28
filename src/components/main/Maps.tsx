@@ -1,4 +1,5 @@
 import { Content } from 'components/common';
+import { CustomButton } from 'components/common/CustomButton';
 import React, { useEffect, useState } from 'react';
 import {
   Map,
@@ -17,6 +18,7 @@ interface IMapsProps {
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
   clickedItem: IMarkers | undefined;
+  setClickedItem: React.Dispatch<React.SetStateAction<IMarkers | undefined>>;
 }
 
 const Maps = ({
@@ -24,14 +26,13 @@ const Maps = ({
   setMarkers,
   markers,
   clickedItem,
+  setClickedItem,
 }: IMapsProps) => {
   const location = useLocation();
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
-  const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
-  const [isDetailUiOpen, setIsDetailUiOpen] = useState(false);
-  const [_, setIsInfoWindowOpen] = useState(false);
-
+  const [isShowMemo, setIsShowMemo] = useState(false);
+  const [isShowDetail, setIsShowDetail] = useState(false);
   const [state, setState] = useState<MapProps>({
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     isPanto: true,
@@ -47,6 +48,7 @@ const Maps = ({
         },
         isPanto: true,
       });
+      setClickedItem(location.state.expense.placeInfo);
     }
   }, [location]);
 
@@ -100,62 +102,124 @@ const Maps = ({
           <MapMarker
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
-            onClick={() => {
-              setInfo(marker);
-              setIsPopupMemoOpen(false);
+            onMouseOver={() => {
+              setClickedItem(marker);
             }}
-            onMouseOver={() => setIsInfoWindowOpen(true)}
             infoWindowOptions={{ zIndex: 0 }}
-          >
-            {clickedItem?.content === marker.content && info && (
-              <>
-                <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
-                  <InfoContent>{marker?.content}</InfoContent>
-                </InfoWindow>
-                <CustomOverlayMap
-                  position={marker.position}
-                  clickable={true}
-                  zIndex={1}
-                  yAnchor={1}
-                >
-                  {isPopupMemoOpen && (
-                    <PopUpMemo
-                      setIsPopupMemoOpen={setIsPopupMemoOpen}
-                      setIsDetailUiOpen={setIsDetailUiOpen}
-                      content={marker.content}
-                      info={info}
-                    ></PopUpMemo>
-                  )}
-                </CustomOverlayMap>
-                <CustomOverlayMap
-                  position={marker.position}
-                  clickable={true}
-                  zIndex={2}
-                  yAnchor={1}
-                >
-                  {isDetailUiOpen && (
-                    <MainDetailUi
-                      setIsDetailUiOpen={setIsDetailUiOpen}
-                      content={marker.content}
-                      info={info}
-                    />
-                  )}
-                </CustomOverlayMap>
-              </>
-            )}
-          </MapMarker>
+          />
+
+          // </MapMarker>
         ))}
+        {clickedItem && (
+          <CustomOverlayMap
+            position={clickedItem.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <InfoContent
+              onClick={() => {
+                setIsShowMemo(true);
+                setInfo(clickedItem);
+              }}
+            >
+              {clickedItem.content}
+              <CustomButton
+                width="100px"
+                backgroundColor="black60"
+                color="white100"
+              >
+                메모작성하기
+              </CustomButton>
+            </InfoContent>
+          </CustomOverlayMap>
+        )}
+        {isShowMemo && info && (
+          <CustomOverlayMap
+            position={info.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <PopUpMemo
+              setIsShowMemo={setIsShowMemo}
+              setIsShowDetail={setIsShowDetail}
+              content={info?.content}
+              info={clickedItem!}
+            />
+          </CustomOverlayMap>
+        )}
+        {isShowDetail && clickedItem && (
+          <CustomOverlayMap
+            position={clickedItem.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <MainDetailUi
+              setIsShowDetail={setIsShowDetail}
+              clickedItem={clickedItem}
+            />
+          </CustomOverlayMap>
+        )}
       </Map>
     </>
   );
 };
 
-const InfoWindow = styled.div`
+// {clickedItem?.content === marker.content && info && (
+//   <>
+//     <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
+//       <InfoContent>{marker?.content}</InfoContent>
+//     </InfoWindow>
+//     <CustomOverlayMap
+//       position={marker.position}
+//       clickable={true}
+//       zIndex={1}
+//       yAnchor={1}
+//     >
+//       {isPopupMemoOpen && (
+//         <PopUpMemo
+//           setIsPopupMemoOpen={setIsPopupMemoOpen}
+//           setIsDetailUiOpen={setIsDetailUiOpen}
+//           content={marker.content}
+//           info={info}
+//         ></PopUpMemo>
+//       )}
+//     </CustomOverlayMap>
+//     <CustomOverlayMap
+//       position={marker.position}
+//       clickable={true}
+//       zIndex={2}
+//       yAnchor={1}
+//     >
+//       {isDetailUiOpen && (
+//         <MainDetailUi
+//           setIsDetailUiOpen={setIsDetailUiOpen}
+//           content={marker.content}
+//           info={info}
+//         />
+//       )}
+//     </CustomOverlayMap>
+//   </>
+// )}
+
+const InfoContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  bottom: 48px;
+  width: auto;
+  background-color: ${(props) => props.theme.colors.brand0};
+  border-radius: 10px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;
-const InfoContent = styled(Content)`
-  margin: 2px 0 2px 2px;
-`;
+
 export default Maps;

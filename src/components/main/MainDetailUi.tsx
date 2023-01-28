@@ -8,17 +8,14 @@ import { getAuth } from 'firebase/auth';
 import usePostExpense from 'hooks/usePostExpense';
 
 interface IMainDetailUiProps {
-  setIsDetailUiOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  content: undefined | string;
-  info: IMarkers;
+  setIsShowDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  clickedItem: IMarkers;
 }
 
-const MainDetailUi = ({
-  setIsDetailUiOpen,
-  content,
-  info,
-}: IMainDetailUiProps) => {
-  const [expenseWhere, setExpenseWhere] = React.useState<string>(content!);
+const MainDetailUi = ({ setIsShowDetail, clickedItem }: IMainDetailUiProps) => {
+  const [expenseWhere, setExpenseWhere] = React.useState<string>(
+    clickedItem.content!
+  );
   const [expenseWhat, setExpenseWhat] = React.useState<string>('');
   const [expenseHowMuch, setExpenseHowMuch] = React.useState<number>(0);
   const [expenseExperience, setExpenseExperience] = React.useState<string>('');
@@ -31,7 +28,7 @@ const MainDetailUi = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
-    setIsDetailUiOpen(false);
+    setIsShowDetail(false);
     setExpenseWhere('');
     setExpenseWhat('');
     setExpenseHowMuch(0);
@@ -53,11 +50,11 @@ const MainDetailUi = ({
       price: expenseHowMuch,
       experience: expenseExperience,
       userId: auth.currentUser.uid,
-      placeInfo: info,
+      placeInfo: clickedItem,
     };
     mutate(formData);
 
-    setIsDetailUiOpen(false);
+    setIsShowDetail(false);
 
     setExpenseWhere('');
     setExpenseWhat('');

@@ -3,11 +3,10 @@ import { Login, SignUp } from 'components/auth';
 import AuthForgot from 'components/auth/AuthForgot';
 import { Landing } from 'components/landing';
 import { MyPage } from 'pages';
-import Main from 'components/main/Main';
+import Main from 'pages/Main';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
-import Calendar from 'components/calendar/Calendar';
 
 const Router = () => {
   return (
@@ -25,7 +24,6 @@ const Router = () => {
               </AuthRoute>
             }
           />
-          <Route path="/Calendar" element={<AuthRoute><Calendar /></AuthRoute>} />
           <Route
             path="/my-page"
             element={

@@ -24,6 +24,7 @@ const PlaceItem = ({ list, clickedItem, setClickedItem }: IPlaceItemProps) => {
         <ListItem
           key={`item-${item.content}-${item.position.lat},${item.position.lng}`}
           onClick={() => handleItemCliked(item)}
+          onMouseEnter={() => handleItemCliked(item)}
         >
           <ul>
             <li>

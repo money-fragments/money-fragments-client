@@ -1,4 +1,5 @@
 import { Content } from 'components/common';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import {
   Map,
@@ -11,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import MainDetailUi from './MainDetailUi';
 import PopUpMemo from './PopupMemo';
+import useUserExpenses from 'hooks/useUserExpenses';
 
 interface IMapsProps {
   searchPlace: string;
@@ -25,6 +27,7 @@ const Maps = ({
   markers,
   clickedItem,
 }: IMapsProps) => {
+  const auth = getAuth();
   const location = useLocation();
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
@@ -37,6 +40,31 @@ const Maps = ({
     isPanto: true,
   });
 
+  const { data } = useUserExpenses(
+    auth.currentUser?.uid!,
+    new Date().getFullYear().toString()
+  );
+
+  // 유져의 현재 위치를 받아올 수 있으면 현재 위치로 지도를 이동시키고, 없으면 서울로 이동시킨다.
+  useEffect(() => {
+    try {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setState({
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            isPanto: true,
+          });
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  // 지출 내역을 클릭하면 그 지출 내역의 위치로 지도를 이동시킨다.
   useEffect(() => {
     if (location.state?.expense.placeInfo) {
       setMarkers([location.state.expense.placeInfo]);
@@ -49,6 +77,15 @@ const Maps = ({
       });
     }
   }, [location]);
+
+  // 유져의 지출 내역을 받아오면 지도에 마커를 표시한다.
+  useEffect(() => {
+    if (markers.length === 0) {
+      if (data) {
+        setMarkers(data.map((expense: Expense) => expense.placeInfo));
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!map) return;

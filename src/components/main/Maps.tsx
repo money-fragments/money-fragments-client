@@ -1,5 +1,5 @@
 import { Content } from 'components/common';
-import { getAuth } from 'firebase/auth';
+import { CustomButton } from 'components/common/CustomButton';
 import React, { useEffect, useState } from 'react';
 import {
   Map,
@@ -12,13 +12,13 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import MainDetailUi from './MainDetailUi';
 import PopUpMemo from './PopupMemo';
-import useUserExpenses from 'hooks/useUserExpenses';
 
 interface IMapsProps {
   searchPlace: string;
   markers: IMarkers[];
   setMarkers: React.Dispatch<React.SetStateAction<IMarkers[]>>;
   clickedItem: IMarkers | undefined;
+  setClickedItem: React.Dispatch<React.SetStateAction<IMarkers | undefined>>;
 }
 
 const Maps = ({
@@ -26,45 +26,18 @@ const Maps = ({
   setMarkers,
   markers,
   clickedItem,
+  setClickedItem,
 }: IMapsProps) => {
-  const auth = getAuth();
   const location = useLocation();
   const [info, setInfo] = useState<IMarkers>();
   const [map, setMap] = useState<kakao.maps.Map>();
-  const [isPopupMemoOpen, setIsPopupMemoOpen] = useState(false);
-  const [isDetailUiOpen, setIsDetailUiOpen] = useState(false);
-  const [_, setIsInfoWindowOpen] = useState(false);
-
+  const [isShowMemo, setIsShowMemo] = useState(false);
+  const [isShowDetail, setIsShowDetail] = useState(false);
   const [state, setState] = useState<MapProps>({
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     isPanto: true,
   });
 
-  const { data } = useUserExpenses(
-    auth.currentUser?.uid!,
-    new Date().getFullYear().toString()
-  );
-
-  // 유져의 현재 위치를 받아올 수 있으면 현재 위치로 지도를 이동시키고, 없으면 서울로 이동시킨다.
-  useEffect(() => {
-    try {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          setState({
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            },
-            isPanto: true,
-          });
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  // 지출 내역을 클릭하면 그 지출 내역의 위치로 지도를 이동시킨다.
   useEffect(() => {
     if (location.state?.expense.placeInfo) {
       setMarkers([location.state.expense.placeInfo]);
@@ -75,17 +48,9 @@ const Maps = ({
         },
         isPanto: true,
       });
+      setClickedItem(location.state.expense.placeInfo);
     }
   }, [location]);
-
-  // 유져의 지출 내역을 받아오면 지도에 마커를 표시한다.
-  useEffect(() => {
-    if (markers.length === 0) {
-      if (data) {
-        setMarkers(data.map((expense: Expense) => expense.placeInfo));
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     if (!map) return;
@@ -137,62 +102,124 @@ const Maps = ({
           <MapMarker
             key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
             position={marker.position}
-            onClick={() => {
-              setInfo(marker);
-              setIsPopupMemoOpen(false);
+            onMouseOver={() => {
+              setClickedItem(marker);
             }}
-            onMouseOver={() => setIsInfoWindowOpen(true)}
             infoWindowOptions={{ zIndex: 0 }}
-          >
-            {clickedItem?.content === marker.content && info && (
-              <>
-                <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
-                  <InfoContent>{marker?.content}</InfoContent>
-                </InfoWindow>
-                <CustomOverlayMap
-                  position={marker.position}
-                  clickable={true}
-                  zIndex={1}
-                  yAnchor={1.5}
-                >
-                  {isPopupMemoOpen && (
-                    <PopUpMemo
-                      setIsPopupMemoOpen={setIsPopupMemoOpen}
-                      setIsDetailUiOpen={setIsDetailUiOpen}
-                      content={marker.content}
-                      info={marker}
-                    ></PopUpMemo>
-                  )}
-                </CustomOverlayMap>
-                <CustomOverlayMap
-                  position={marker.position}
-                  clickable={true}
-                  zIndex={2}
-                  yAnchor={1}
-                >
-                  {isDetailUiOpen && (
-                    <MainDetailUi
-                      setIsDetailUiOpen={setIsDetailUiOpen}
-                      content={marker.content}
-                      info={marker}
-                    />
-                  )}
-                </CustomOverlayMap>
-              </>
-            )}
-          </MapMarker>
+          />
+
+          // </MapMarker>
         ))}
+        {clickedItem && (
+          <CustomOverlayMap
+            position={clickedItem.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <InfoContent
+              onClick={() => {
+                setIsShowMemo(true);
+                setInfo(clickedItem);
+              }}
+            >
+              {clickedItem.content}
+              <CustomButton
+                width="100px"
+                backgroundColor="black60"
+                color="white100"
+              >
+                메모작성하기
+              </CustomButton>
+            </InfoContent>
+          </CustomOverlayMap>
+        )}
+        {isShowMemo && info && (
+          <CustomOverlayMap
+            position={info.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <PopUpMemo
+              setIsShowMemo={setIsShowMemo}
+              setIsShowDetail={setIsShowDetail}
+              content={info?.content}
+              info={clickedItem!}
+            />
+          </CustomOverlayMap>
+        )}
+        {isShowDetail && clickedItem && (
+          <CustomOverlayMap
+            position={clickedItem.position}
+            clickable={true}
+            zIndex={2}
+            yAnchor={1}
+          >
+            <MainDetailUi
+              setIsShowDetail={setIsShowDetail}
+              clickedItem={clickedItem}
+            />
+          </CustomOverlayMap>
+        )}
       </Map>
     </>
   );
 };
 
-const InfoWindow = styled.div`
+// {clickedItem?.content === marker.content && info && (
+//   <>
+//     <InfoWindow onClick={() => setIsPopupMemoOpen(true)}>
+//       <InfoContent>{marker?.content}</InfoContent>
+//     </InfoWindow>
+//     <CustomOverlayMap
+//       position={marker.position}
+//       clickable={true}
+//       zIndex={1}
+//       yAnchor={1}
+//     >
+//       {isPopupMemoOpen && (
+//         <PopUpMemo
+//           setIsPopupMemoOpen={setIsPopupMemoOpen}
+//           setIsDetailUiOpen={setIsDetailUiOpen}
+//           content={marker.content}
+//           info={info}
+//         ></PopUpMemo>
+//       )}
+//     </CustomOverlayMap>
+//     <CustomOverlayMap
+//       position={marker.position}
+//       clickable={true}
+//       zIndex={2}
+//       yAnchor={1}
+//     >
+//       {isDetailUiOpen && (
+//         <MainDetailUi
+//           setIsDetailUiOpen={setIsDetailUiOpen}
+//           content={marker.content}
+//           info={info}
+//         />
+//       )}
+//     </CustomOverlayMap>
+//   </>
+// )}
+
+const InfoContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  bottom: 48px;
+  width: auto;
+  background-color: ${(props) => props.theme.colors.brand0};
+  border-radius: 10px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;
-const InfoContent = styled(Content)`
-  margin: 2px 0 2px 2px;
-`;
+
 export default Maps;
